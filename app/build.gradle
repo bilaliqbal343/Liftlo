@@ -1,0 +1,64 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion 30
+    defaultConfig {
+        multiDexEnabled true
+        applicationId "com.app.liftlo"
+        minSdkVersion 19
+        targetSdkVersion 30
+        versionCode 2
+        versionName "2.0"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.0.0'
+
+
+    implementation 'androidx.multidex:multidex:2.0.0'
+
+    implementation 'io.nlopez.smartlocation:library:3.3.1'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+    implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+
+    implementation 'com.victor:lib:1.0.4'
+    implementation 'com.github.thunder413:DateTimeUtils:1.0'  //date calculation
+    implementation 'com.github.MdFarhanRaja:SearchableSpinner:1.7'
+    implementation 'com.github.bumptech.glide:glide:3.5.2'
+
+    //use this for firebase and maps
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-messaging:17.3.0'
+
+    //country code picker
+    implementation 'com.github.joielechong:countrycodepicker:2.4.1'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
+    implementation 'id.zelory:compressor:2.1.0'
+
+
+    implementation 'com.google.firebase:firebase-auth:16.0.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+}

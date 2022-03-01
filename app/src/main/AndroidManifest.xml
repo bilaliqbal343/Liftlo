@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.app.liftlo">
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo_black"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo_black"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
+        tools:targetApi="q"
+        android:theme="@style/AppTheme">
+
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
+
+        <activity
+            android:name="com.app.liftlo.Login.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/title_activity_login"/>
+
+
+        <activity
+            android:name="com.app.liftlo.Login.SignupActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Sign up"/>
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name="com.app.liftlo.Driver.ActivityDriver"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <!--<intent-filter>-->
+            <!--<action android:name="ACTIVITY_DRIVER" />-->
+            <!---->
+            <!--<category android:name="android.intent.category.DEFAULT" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity
+            android:name="com.app.liftlo.Ride.ActivityRide"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <!--<intent-filter>-->
+            <!--<action android:name="ACTIVITY_DRIVER" />-->
+            <!---->
+            <!--<category android:name="android.intent.category.DEFAULT" />-->
+        <!--</intent-filter>-->
+
+        <activity android:name="com.app.liftlo.Splash"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.app.liftlo.Login.NumberAuth.GetUserNumber"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name="com.app.liftlo.Login.NumberAuth.VerifyNumberActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+
+        <activity
+            android:name="com.app.liftlo.Login.SignupDriver"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name="com.app.liftlo.Login.RegisterSelection"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+
+        <service
+            android:name="com.app.liftlo.utils.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.app.liftlo.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+
+    </application>
+
+</manifest>

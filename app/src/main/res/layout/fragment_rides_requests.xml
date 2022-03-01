@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fff"
+    android:orientation="vertical">
+
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/a"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageButton
+            android:id="@+id/btnsearch"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/search2" />
+
+
+        <EditText
+            android:layout_centerVertical="true"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:background="@android:color/transparent"
+            android:layout_toRightOf="@+id/btnsearch"
+            android:layout_toLeftOf="@+id/btnfilter"
+            android:id="@+id/et_search"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textColorHint="#a1a1a1"
+            android:textColor="#000"
+            android:hint="      Search by Location" />
+
+
+
+        <ImageButton
+            android:id="@+id/btnfilter"
+            android:layout_marginEnd="5dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="14dp"
+            android:backgroundTint="#000"
+            android:background="@drawable/settings" />
+
+
+
+
+    </RelativeLayout>
+
+
+
+
+
+    <FrameLayout
+        android:layout_below="@+id/a"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swiperefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="2dp">
+
+
+
+    <ListView
+
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    </FrameLayout>
+
+
+
+    <RelativeLayout
+        android:id="@+id/r"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#86000000">
+
+        <com.victor.loading.rotate.RotateLoading
+            android:id="@+id/rotateloading"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:loading_width="5dp"
+            app:loading_color="#000"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+</RelativeLayout>

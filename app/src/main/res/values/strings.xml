@@ -1,0 +1,175 @@
+<resources>
+    <string name="app_name">LIFTLO</string>
+
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_login">Sign in</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+
+    <string name="yes">Yes</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="are_you_sure_to_logout">Are you sure you want to logout?</string>
+    <string name="no">No</string>
+    <string name="login">Login</string>
+    <string name="new_user">New User?</string>
+    <string name="end">End</string>
+    <string name="next">Next</string>
+    <string name="nic">National Identity Number</string>
+    <string name="sign_up">Sign up</string>
+    <string name="home">Home</string>
+    <string name="my_rides">My Rides</string>
+    <string name="rides_history">Rides History</string>
+    <string name="my_profile">My Profile</string>
+    <string name="logout">Logout</string>
+    <string name="logout_are_you_sure">Are you sure you want to logout?</string>
+    <string name="enter_here">Enter Here</string>
+    <string name="confirm">Confirm</string>
+    <string name="name">Name</string>
+    <string name="enter_your_name">Enter Your Name</string>
+    <string name="enter_your_email">Enter Your Email</string>
+    <string name="email">Email</string>
+    <string name="number">Number</string>
+    <string name="enter_your_number">Enter Your Number</string>
+    <string name="gender">Gender</string>
+    <string name="select_your_gender">Select Your Gender</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="enter_your_date_of_birth">Enter Your Date of Birth</string>
+    <string name="city">City</string>
+    <string name="enter_your_city">Enter Your City</string>
+    <string name="password">Password</string>
+    <string name="enter_your_password">Password</string>
+    <string name="submit">Submit</string>
+    <string name="wait">Wait For the Code...</string>
+    <string name="wait_text">We have sent you a code, it will be detected automatically but if it is not detected you can enter it below manually as well</string>
+    <string name="enter_code">Enter Code Here</string>
+    <string name="rate_ride">Rate Ride</string>
+    <string name="rate">Rate</string>
+    <string name="enter_seat">Enter Number Seats To Book Ride</string>
+    <string name="enter_seat_no">Enter Seats No.</string>
+    <string name="profile">My Profile </string>
+    <string name="father_name">Father Name</string>
+    <string name="license_number">License Number</string>
+    <string name="car_information">Car Information</string>
+    <string name="model">Model</string>
+    <string name="car_number">Car Number</string>
+    <string name="car_color">Car Color</string>
+    <string name="destination_location">Enter Destination Location</string>
+    <string name="starting_location">Enter Starting Location</string>
+    <string name="additional_info">Additional Information</string>
+    <string name="route_detail">Route details</string>
+    <string name="car_details">Car Details</string>
+    <string name="ride_details">Ride Details</string>
+    <string name="seats_no">No. of Seats</string>
+    <string name="seat_cost">Cost per Seat</string>
+    <string name="time">Time</string>
+    <string name="date">Date</string>
+    <string name="ride_rules">Ride Rules</string>
+    <string name="smoking">Smoking</string>
+    <string name="music">Music</string>
+    <string name="share_ride">Share Ride</string>
+    <string name="request_ride">Request Ride</string>
+    <string name="seats_booked">Seats Booked</string>
+    <string name="total_cost">Total Cost</string>
+    <string name="track_ride">Track Ride</string>
+    <string name="pending">Pending</string>
+    <string name="accepted">Accepted</string>
+    <string name="rejected">Rejected</string>
+    <string name="earned">Earned</string>
+    <string name="cost_per_seat">Cost Per Seat</string>
+    <string name="view_join_req">View Join Requests</string>
+    <string name="start_ride">Start Ride</string>
+
+
+
+
+    <string name="all_rides">All Rides</string>
+    <string name="my_ride_requests">My Ride Requests</string>
+    <string name="browse_image">Browse Image</string>
+    <string name="cant_book_your_own_ride">Cannot book your own ride</string>
+    <string name="choose_image">Choose Image</string>
+    <string name="choose_all_images">Select All Images</string>
+    <string name="enter_nic">Enter National Identity</string>
+    <string name="national_identity">National Identity</string>
+    <string name="enter_car_model">Enter Car Model</string>
+    <string name="car_model">Car Model</string>
+    <string name="enter_car_number">Enter Car Number</string>
+    <string name="car_number_plate">Car Number</string>
+    <string name="enter_car_color">Enter Car Color</string>
+    <string name="enter_license_no">Enter License Number</string>
+    <string name="license_no">License Number</string>
+    <string name="enter_address">Enter Address</string>
+    <string name="address">Address</string>
+    <string name="upload_pic">Upload Photo</string>
+    <string name="your_account_approval_is_pending">Your account approval is pending</string>
+
+
+    <string name="error_loading_data">No results found</string>
+    <string name="server_error">Server Error</string>
+    <string name="are_you_sure_you_want_to_cancel_ride">Are you sure you want to cancel</string>
+    <string name="cancel">Cancel</string>
+    <string name="cancel_request">Cancel request</string>
+    <string name="request_successful">Request Successful</string>
+    <string name="ride_history">Ride History</string>
+    <string name="location_not_found">Location not found</string>
+    <string name="allow_permission">Allow permission to use the application</string>
+    <string name="turn_on_location">Turn on location</string>
+    <string name="turn_on">Turn on</string>
+    <string name="enter_no_of_seat">Enter no of seats</string>
+    <string name="enter_seat_cost">Enter seat cost</string>
+    <string name="enter_time">Enter time</string>
+    <string name="enter_date">Enter date</string>
+    <string name="ride_shared_successfully">Ride Shared Successfully</string>
+    <string name="ride_requested_successfully">Ride Requested Successfully</string>
+    <string name="unable_to_locate">Unable to get your location</string>
+    <string name="enter_location_to_search">Enter Location to Search</string>
+    <string name="only">Only</string>
+    <string name="seats_left">seats left</string>
+    <string name="no_rides_found">No Rides Found</string>
+    <string name="request_rejected">Request Rejected</string>
+    <string name="request_accepted">Request Accepted</string>
+    <string name="ride_requests">Ride Requests</string>
+    <string name="enter_code_">Enter Code…</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="enter_email">Enter your Emial</string>
+    <string name="enter_number">Enter your Number</string>
+    <string name="enter_gender">Gender</string>
+    <string name="enter_city">Enter City</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="ac">AC</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="enter_dob">Enter your date of birth</string>
+    <string name="max_limit">Maximum Limit</string>
+    <string name="ride_not_started_yet">Ride not started yet</string>
+    <string name="ride_ended">Ride ended</string>
+    <string name="kindly_provide_ratings">Kindly provide rating</string>
+    <string name="all_available_rides">All available rides</string>
+    <string name="account_created_successfully">Account created Successfully</string>
+    <string name="enter_a_valid_phone_number">Enter a valid phone number</string>
+    <string name="limit_reached_cant_book_more">Limit reached cannot book more</string>
+    <string name="check_internet_connection">Check your Internet connection and try again</string>
+    <string name="enter_strating_location">Enter the starting location or click Next</string>
+    <string name="title_activity_register_selection">RegisterSelection</string>
+    <string name="enter_your_father_name">Enter your father name</string>
+    <string name="all_drivers">All drivers</string>
+
+
+
+</resources>

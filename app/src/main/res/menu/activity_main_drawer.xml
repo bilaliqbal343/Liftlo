@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_menu1"
+            android:icon="@drawable/home"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_menu2"
+            android:icon="@drawable/ride"
+            android:title="My Rides" />
+        <item
+            android:id="@+id/nav_menu3"
+            android:icon="@drawable/history"
+            android:title="Rides History" />
+        <item
+            android:id="@+id/nav_menu4"
+            android:icon="@drawable/profile"
+            android:title="My Profile" />
+        <item
+            android:id="@+id/nav_menu5"
+            android:icon="@drawable/logout"
+            android:title="Logout" />
+
+    </group>
+
+
+</menu>
