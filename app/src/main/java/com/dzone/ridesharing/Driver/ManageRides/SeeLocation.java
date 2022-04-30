@@ -23,7 +23,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class SeeLocation extends Fragment implements OnMapReadyCallback {
+public class
+
+SeeLocation extends Fragment implements OnMapReadyCallback {
 
     View v;
     String StartingLat, StartingLan, DestinationLat, DestinationLan, DestName, StartingName;

@@ -123,13 +123,13 @@ public class LoginActivity extends AppCompatActivity {
                     password.requestFocus();
                 } else {
 
-                    if (number.equals("333331122334")
+                    if (number.equals("03004056857")
                             && password.equals("0000")) {
 
                         intent = new Intent(LoginActivity.this, ActivityDriver.class);
                         startActivity(intent);
                         finish();
-                    } else if (number.equals("333345516977")
+                    } else if (number.equals("03014735548")
                             && password.equals("0000")) {
                         intent = new Intent(LoginActivity.this, ActivityRide.class);
                         startActivity(intent);
@@ -344,8 +344,6 @@ public class LoginActivity extends AppCompatActivity {
                     c = jar_array.getJSONObject(1);
 
                     if (c.length() > 0) {
-
-
                         type = c.getString("type");
                         name = c.getString("name");
                         dob = c.getString("dob");
@@ -360,7 +358,6 @@ public class LoginActivity extends AppCompatActivity {
                         rating = c.getString("rating");
                         status = c.getString("status");
                     }
-
                 }
 
 

@@ -9,9 +9,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by Bilal Sabir on 21/2/2017.
- */
+
 public class JsonParser {
 
 
@@ -55,7 +53,7 @@ public class JsonParser {
 
             Log.e("Server Response: ", stringBuilder.toString());
             JSONObject ab=new JSONObject(stringBuilder.toString());
-            Log.d("akhpal respons",ab.toString());
+            Log.d(" respons",ab.toString());
 
             return stringBuilder.toString();
 
@@ -63,7 +61,7 @@ public class JsonParser {
             ex.printStackTrace();
             return null;
         } catch (Exception e) {
-            Log.d("akhpal error",e.toString());
+            Log.d(" error",e.toString());
             e.printStackTrace();
             return null;
         }
