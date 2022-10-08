@@ -9,12 +9,14 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -28,6 +30,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -88,6 +91,9 @@ public class FragmentAllRides extends Fragment {
     EditText EtSearch;
     SwipeRefreshLayout swipeRefreshLayout;
     ImageButton filter, search;
+    Button scheduleTrip;
+    EditText source,destination;
+    String sourceCity,destinationCity;
 
 
     @Nullable
@@ -127,6 +133,7 @@ public class FragmentAllRides extends Fragment {
         swipeRefreshLayout = v.findViewById(R.id.swiperefresh);
         filter = v.findViewById(R.id.btnfilter);
         search = v.findViewById(R.id.btnsearch);
+        scheduleTrip = v.findViewById(R.id.btn_schedule_trip);
 
 
         filter.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +141,13 @@ public class FragmentAllRides extends Fragment {
             public void onClick(View v) {
 
                 Filterdialog();
+            }
+        });
+        scheduleTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               ScheduleTripdialog();
             }
         });
 
@@ -174,6 +188,7 @@ public class FragmentAllRides extends Fragment {
 
                     relativeLayout.setVisibility(View.VISIBLE);
                     rotateLoading.start();
+                    arrayList.clear();
                     new GetAllRides().execute();
                     swipeRefreshLayout.setRefreshing(false);
 
@@ -650,8 +665,10 @@ public class FragmentAllRides extends Fragment {
                                     adapter.getFilter().filter(charSequence);
                                 } else if (search_value.equals("destination")) {
                                     adapter.getFilter2().filter(charSequence);
-                                } else {
-                                    Toast.makeText(getActivity(), "ass", Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(getActivity(), "please select source or destination", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
@@ -722,6 +739,7 @@ public class FragmentAllRides extends Fragment {
             @Override
             public void onClick(View v) {
 
+
                 if (destination.isChecked()) {
                     search_value = "destination";
                     dialog.dismiss();
@@ -742,6 +760,49 @@ public class FragmentAllRides extends Fragment {
             public void onClick(View view) {
 
                 dialog.dismiss();
+            }
+        });
+
+
+        dialog.show();
+    }
+
+    //Schedule Trip dialog
+    public void ScheduleTripdialog() {
+
+
+        dialog = new Dialog(getActivity());
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        dialog.setContentView(R.layout.dialog_ride_details);
+
+        Button btnDone;
+
+        btnDone = dialog.findViewById(R.id.btn_done);
+        source=dialog.findViewById(R.id.source_city);
+        destination=dialog.findViewById(R.id.destination_city);
+        btnDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!source.getText().toString().equals("") &&!destination.getText().toString().equals(""))
+                {
+                    sourceCity=source.getText().toString();
+                    destinationCity=destination.getText().toString();
+                    AllRidesAdapter emptyadapter = new AllRidesAdapter(getActivity(),
+                            adapter.emptyArray());
+                    listView.setAdapter(emptyadapter);
+                   AllRidesAdapter scheduleRideAdapter=new AllRidesAdapter(getActivity(),adapter.getFilter3(sourceCity,destinationCity)) ;
+                    listView.setAdapter(scheduleRideAdapter);
+                    dialog.dismiss();
+                }
+                else
+                {
+                    Toast.makeText(getActivity(),"Enter Source & Destination", Toast.LENGTH_SHORT).show();
+
+                }
+
             }
         });
 

@@ -60,8 +60,8 @@
 
 
 
-
     </RelativeLayout>
+
 
 
 
@@ -69,10 +69,18 @@
 
     <FrameLayout
         android:layout_below="@+id/a"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <Button
+            android:id="@+id/btn_schedule_trip"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Schedule Trip  "
+            android:textColor="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/button_background"/>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swiperefresh"
@@ -80,10 +88,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="2dp">
 
-
-
     <ListView
-
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

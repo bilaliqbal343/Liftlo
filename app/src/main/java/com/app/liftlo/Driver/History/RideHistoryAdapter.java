@@ -20,17 +20,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RideHistoryAdapter extends BaseAdapter {
 
-
+    Boolean isride;
     Activity con;
     String[] date, time, name, driver_id, startName, destName, seats, cost;
 
     public RideHistoryAdapter(Activity contex, String[] driver_id, String[] name
             , String[] date, String[] time, String[] start_nAme, String[] dest_name
-            , String[] seats, String[] cost) {
+            , String[] seats, String[] cost, Boolean isride) {
 
         con = contex;
         this.driver_id = driver_id;
         this.name = name;
+        this.isride = isride;
         this.date = date;
         this.time = time;
         this.startName = start_nAme;
@@ -56,8 +57,8 @@ public class RideHistoryAdapter extends BaseAdapter {
 
     private class Viewholder {
 
-        TextView  TVdate, TVname, TVnumber, TVstatus, TVstartName, TVdestName, TVseats, TVcost;
-        Button btnAccept, btnDecline;
+        TextView TVdate, TVname, TVnumber, TVstatus, TVstartName, TVdestName, TVseats, TVcost;
+        Button returnRide, btnDecline;
         ImageButton call, map;
         CircleImageView imageView;
     }
@@ -79,9 +80,7 @@ public class RideHistoryAdapter extends BaseAdapter {
             viewholder.TVdestName = (TextView) convertView.findViewById(R.id.end_loc);
             viewholder.TVseats = (TextView) convertView.findViewById(R.id.seat);
             viewholder.TVcost = (TextView) convertView.findViewById(R.id.cost);
-
-
-
+            viewholder.returnRide = (Button) convertView.findViewById(R.id.btn_return_ride);
             convertView.setTag(viewholder);
 
         } else {
@@ -94,18 +93,17 @@ public class RideHistoryAdapter extends BaseAdapter {
         viewholder.TVstartName.setText(startName[position]);
         viewholder.TVname.setText(name[position]);
         viewholder.TVdestName.setText(destName[position]);
-        viewholder.TVseats.setText(con.getResources().getString(R.string.seats_no) +" "+seats[position]);
-        viewholder.TVcost.setText(con.getResources().getString(R.string.cost_per_seat) +" "+cost[position]);
-
-
-
-
-
+        viewholder.TVseats.setText(con.getResources().getString(R.string.seats_no) + " " + seats[position]);
+        viewholder.TVcost.setText(con.getResources().getString(R.string.cost_per_seat) + " " + cost[position]);
+        if (isride == true) {
+            viewholder.returnRide.setVisibility(View.VISIBLE);
+        } else {
+            viewholder.returnRide.setVisibility(View.GONE);
+        }
 
 
         return convertView;
     }
-
 
 
 }

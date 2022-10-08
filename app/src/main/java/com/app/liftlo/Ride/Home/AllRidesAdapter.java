@@ -1,5 +1,6 @@
 package com.app.liftlo.Ride.Home;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -14,12 +15,14 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.app.liftlo.R;
 import com.app.liftlo.utils.ServerURL;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -130,7 +133,7 @@ public class AllRidesAdapter extends BaseAdapter implements Filterable {
         });
 
         if (mDisplayedValues.get(position).rating.equals("null")){
-            viewholder.ratingBar.setRating(Float.parseFloat("5.0"));
+            viewholder.ratingBar.setRating(Float.parseFloat("0.0"));
         }else {
             viewholder.ratingBar.setRating(Float.parseFloat(mDisplayedValues.get(position).rating));
         }
@@ -247,7 +250,7 @@ public class AllRidesAdapter extends BaseAdapter implements Filterable {
                     constraint = constraint.toString().toLowerCase();
                     for (int i = 0; i < mOriginalValues.size(); i++) {
                         String data = mOriginalValues.get(i).getStart_name();
-                        if (data.toLowerCase().startsWith(constraint.toString())) {
+                        if (data.toLowerCase().contains(constraint.toString())) {
 
                             FilteredArrList.add(new Filter_model(mOriginalValues.get(i).booked_seats
                                     , mOriginalValues.get(i).status
@@ -323,7 +326,7 @@ public class AllRidesAdapter extends BaseAdapter implements Filterable {
                     constraint = constraint.toString().toLowerCase();
                     for (int i = 0; i < mOriginalValues.size(); i++) {
                         String data2 = mOriginalValues.get(i).getDest_name();
-                        if (data2.toLowerCase().startsWith(constraint.toString())) {
+                        if (data2.toLowerCase().contains(constraint.toString())) {
 
                             FilteredArrList.add(new Filter_model(mOriginalValues.get(i).booked_seats
                                     , mOriginalValues.get(i).status
@@ -354,6 +357,61 @@ public class AllRidesAdapter extends BaseAdapter implements Filterable {
             }
         };
         return filter;
+    }
+    public ArrayList<Filter_model> getFilter3(String source, String destination) {
+                ArrayList<Filter_model> FilteredArrList = new ArrayList<>();
+
+                if (mOriginalValues == null) {
+                    mOriginalValues = new ArrayList<Filter_model>(mDisplayedValues); // saves the original data in mOriginalValues
+                }
+
+
+                  /*  // set the Original result to return
+                    results.count = mOriginalValues.size();
+                    results.values = mOriginalValues;*/
+        int size=mOriginalValues.size();
+                    for (int i = 0; i < size; i++) {
+                        String data2 = mOriginalValues.get(i).getDest_name();
+                        String data1 = mOriginalValues.get(i).getStart_name();
+                        if ((data1.toLowerCase().trim().contains(source.toLowerCase().trim()))&&(data2.toLowerCase().contains(destination.toLowerCase().trim()))) {
+                            FilteredArrList.add(new Filter_model(mOriginalValues.get(i).booked_seats
+                                    , mOriginalValues.get(i).status
+                                    , mOriginalValues.get(i).date
+                                    ,mOriginalValues.get(i).time
+                                    ,mOriginalValues.get(i).driver_name
+                                    ,mOriginalValues.get(i).driver_number
+                                    ,mOriginalValues.get(i).start_name
+                                    ,mOriginalValues.get(i).dest_name
+                                    ,mOriginalValues.get(i).seat_no
+                                    ,mOriginalValues.get(i).seat_cost
+                                    ,mOriginalValues.get(i).car_name
+                                    ,mOriginalValues.get(i).car_color
+                                    ,mOriginalValues.get(i).ac
+                                    ,mOriginalValues.get(i).music
+                                    ,mOriginalValues.get(i).smoking
+                                    ,mOriginalValues.get(i).rating
+                                    ,mOriginalValues.get(i).driver_image) );
+
+
+                        }
+                    }
+                    if (FilteredArrList.size()<=0)
+                    {
+                        Toast.makeText(con, "No rides available ", Toast.LENGTH_SHORT).show();
+                    }
+
+                    // set the Filtered result to return
+
+
+        return FilteredArrList;
+    }
+    public ArrayList<Filter_model> emptyArray() {
+        ArrayList<Filter_model> FilteredArrList = new ArrayList<>();
+
+        if (mOriginalValues == null) {
+            mOriginalValues = new ArrayList<Filter_model>(mDisplayedValues); // saves the original data in mOriginalValues
+        }
+        return FilteredArrList;
     }
 
 

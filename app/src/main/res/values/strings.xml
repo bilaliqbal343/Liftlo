@@ -62,6 +62,7 @@
     <string name="rate_ride">Rate Ride</string>
     <string name="rate">Rate</string>
     <string name="enter_seat">Enter Number Seats To Book Ride</string>
+    <string name="ride_location_details">Enter Source and Destination Cities</string>
     <string name="enter_seat_no">Enter Seats No.</string>
     <string name="profile">My Profile </string>
     <string name="father_name">Father Name</string>

@@ -192,7 +192,7 @@ public class FragmentHistory extends Fragment {
 
                         final RideHistoryAdapter adapter = new RideHistoryAdapter(getActivity(),
                                 driver_id, name, date, time, start_name, dest_name
-                                , seats, cost);
+                                , seats, cost,false);
 
                         listView.setAdapter(adapter);
 
