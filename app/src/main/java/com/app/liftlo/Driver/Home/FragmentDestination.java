@@ -91,7 +91,6 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
         if (bundle != null) {
             StartingLat = bundle.getString("lat");
             StartingLan = bundle.getString("lon");
-            startlocation=bundle.getString("StartName");
             Log.e("startLatLan", StartingLat+","+StartingLan);
 
             GeoCodefromLatLan();
@@ -129,6 +128,7 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
                     getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                     Address address = addressList.get(0);
+
                     Search_latLng = new LatLng(address.getLatitude(), address.getLongitude());
 
                     //remove marker from map if exists
@@ -397,7 +397,7 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
                     bundle.putString("Destlat", dblLat + "");
                     bundle.putString("Destlon", dblLon + "");
                     bundle.putString("Destname", location + "");
-                    bundle.putString("StartName", startlocation);
+                    bundle.putString("StartName", StartingName);
                     fragment.setArguments(bundle);
 
                     getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).
@@ -422,7 +422,8 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
                     Double.parseDouble(StartingLan), 1);
             if (addresses.size() > 0) {
 
-                StartingName = addresses.get(0).getAddressLine(0);
+                StartingName = addresses.get(0).getLocality();
+
 
                 Log.e("geocode", StartingName);
 

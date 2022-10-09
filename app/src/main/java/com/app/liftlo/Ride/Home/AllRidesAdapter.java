@@ -123,7 +123,7 @@ public class AllRidesAdapter extends BaseAdapter implements Filterable {
 //        }
 
 
-        viewholder.ratingBar.setIsIndicator(false);
+        viewholder.ratingBar.setIsIndicator(true);
         viewholder.ratingBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

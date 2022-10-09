@@ -24,6 +24,7 @@
             android:title="@string/all_rides" />
         <item
             android:id="@+id/nav_menu7"
+            android:visible="false"
             android:icon="@drawable/ride_request"
             android:title="@string/my_ride_requests" />
         <item

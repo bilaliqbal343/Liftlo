@@ -129,7 +129,7 @@ public class RideRequestsAdapter extends BaseAdapter {
         viewholder.TVstartName.setText(startName[position]);
         viewholder.TVdestName.setText(destName[position]);
         viewholder.TVseats.setText(con.getResources().getString(R.string.seats_no) +" "+seats[position]);
-        viewholder.TVcost.setText(con.getResources().getString(R.string.cost_per_seat) +" "+cost[position]);
+        viewholder.TVcost.setText(con.getResources().getString(R.string.total_cost) +" "+cost[position]);
 
 
         if (r_image[position].equals("null")){

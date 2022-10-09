@@ -168,7 +168,7 @@ public class RidesAdapter extends BaseAdapter {
         viewholder.TVstartName.setText(start_name[position]);
         viewholder.TVdestName.setText(dest_name[position]);
         viewholder.TVseats.setText(con.getResources().getString(R.string.seats_booked) +" "+booked_seats[position]);
-        viewholder.TVcost.setText(con.getResources().getString(R.string.cost_per_seat) +" "+cost[position]);
+        viewholder.TVcost.setText(con.getResources().getString(R.string.total_cost) +" "+cost[position]);
         viewholder.TVmodel.setText(car_model[position] +" | "+ car_color[position]
                 +" | "+ car_number[position]);
 
