@@ -11,12 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.app.liftlo.Driver.History.RideHistoryAdapter;
 import com.app.liftlo.R;
+import com.app.liftlo.Ride.Home.FragmentAllRides;
 import com.app.liftlo.utils.Check_internet_connection;
 import com.app.liftlo.utils.JsonParser;
 import com.app.liftlo.utils.ServerURL;
@@ -74,6 +76,34 @@ public class FragmentRideHistory extends Fragment {
         } else {
             Toast.makeText(getActivity(),
                     getActivity().getResources().getString(R.string.check_internet_connection), Toast.LENGTH_LONG).show();
+        }
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                listview_click(id,position);
+
+            }
+        });
+
+
+
+
+
+    }
+    //listView.setOnItemClickListener handled here///////////////////////////
+    public void listview_click(long id,int position) {
+
+        if (id == 1) {
+
+            Bundle bundle= new Bundle();
+            bundle.putString("returnDriverName",name[position]);
+            bundle.putString("returnStartName",start_name[position]);
+            bundle.putString("returnDestinationName",dest_name[position]);
+
+           Fragment fragment = new FragmentAllRides();
+            fragment.setArguments(bundle);
+            getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).
+                    addToBackStack("tag").commit();
         }
 
 

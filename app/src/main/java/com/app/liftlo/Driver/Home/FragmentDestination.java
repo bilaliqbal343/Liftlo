@@ -16,9 +16,11 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,10 +64,11 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
     Handler handler;
     EditText loc;
     ImageView currentLoc, getloc;
-    String location="", StartingName,startlocation;
+    String location = "", StartingName, startlocation;
     LatLng Search_latLng;
     Marker marker;
-    RotateLoading rotateLoading; Bitmap smallMarker;
+    RotateLoading rotateLoading;
+    Bitmap smallMarker;
 
 
     @Nullable
@@ -80,22 +83,19 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
 
 
         //change image to bitmap and set as marker
-        BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.flag);
-        Bitmap b=bitmapdraw.getBitmap();
+        BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.flag);
+        Bitmap b = bitmapdraw.getBitmap();
         smallMarker = Bitmap.createScaledBitmap(b, 100, 130, false);
-
-
 
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             StartingLat = bundle.getString("lat");
             StartingLan = bundle.getString("lon");
-            Log.e("startLatLan", StartingLat+","+StartingLan);
+            Log.e("startLatLan", StartingLat + "," + StartingLan);
 
             GeoCodefromLatLan();
         }
-
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
@@ -103,12 +103,8 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
         mapFragment.getMapAsync(this);
 
 
-
-
         return v;
     }
-
-
 
 
     public void onMapSearch(View view) {
@@ -137,7 +133,7 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
                     }
 
                     marker = mMap.addMarker(new MarkerOptions().position(Search_latLng).title(location)
-                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
+                            .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)));
 
                     dblLat = Search_latLng.latitude;
                     dblLon = Search_latLng.longitude;
@@ -374,9 +370,8 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
                     onMapSearch(v);
                 }
             }
-        });;
-
-
+        });
+        ;
 
 
         next.setOnClickListener(new View.OnClickListener() {
@@ -389,7 +384,7 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
                 } else {
 //
 
-                    fragment = new FragmentRideInfo()   ;
+                    fragment = new FragmentRideInfo();
 
                     Bundle bundle = new Bundle();
                     bundle.putString("Startlat", StartingLat + "");
@@ -410,10 +405,7 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
     }
 
 
-
-
-
-    public void GeoCodefromLatLan(){
+    public void GeoCodefromLatLan() {
 
         Geocoder gcd = new Geocoder(getActivity(), Locale.getDefault());
         List<Address> addresses;
@@ -429,14 +421,11 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
 
 
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
 
             Log.e("GeoCodeError", e.toString());
         }
     }
-
-
 
 
     @Override
@@ -445,11 +434,6 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle(getActivity().getResources().getString(R.string.share_ride));
     }
-
-
-
-
-
 
 
 }

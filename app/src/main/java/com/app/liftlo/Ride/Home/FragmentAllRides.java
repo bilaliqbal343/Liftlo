@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -93,8 +94,8 @@ public class FragmentAllRides extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     ImageButton filter, search;
     FloatingActionButton scheduleTrip;
-    EditText source,destination;
-    String sourceCity,destinationCity;
+    EditText source, destination;
+    String sourceCity, destinationCity, returnDriverName, returnStartLocation, returnDestinationLocation;
 
 
     @Nullable
@@ -119,89 +120,136 @@ public class FragmentAllRides extends Fragment {
 
     public void init() {
 
+
         Objects.requireNonNull(getActivity()).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         sharedPreferences = getActivity().getSharedPreferences("DataStore", Context.MODE_PRIVATE);
-        ride_id = sharedPreferences.getString("id", "No value");
-        ride_name = sharedPreferences.getString("name", "No value");
-        ride_number = sharedPreferences.getString("number", "No value");
-        ride_image = sharedPreferences.getString("profile_pic", "No value");
-
-        listView = v.findViewById(R.id.listview);
-        relativeLayout = v.findViewById(R.id.r);
-        rotateLoading = v.findViewById(R.id.rotateloading);
-        EtSearch = v.findViewById(R.id.et_search);
-        swipeRefreshLayout = v.findViewById(R.id.swiperefresh);
-        filter = v.findViewById(R.id.btnfilter);
-        search = v.findViewById(R.id.btnsearch);
-        scheduleTrip = v.findViewById(R.id.btn_schedule_trip);
-
-
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Filterdialog();
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            returnDriverName = bundle.getString("returnDriverName","");
+            returnStartLocation = bundle.getString("returnStartName","");
+            returnDestinationLocation = bundle.getString("returnDestinationName","");
+            if (!returnDriverName.equals("") && !returnStartLocation.equals("") && !returnDestinationLocation.equals("")) {
+                new GetAllRides().execute();
+                adapter=new AllRidesAdapter(getActivity(),new ArrayList<Filter_model>());
+                relativeLayout = v.findViewById(R.id.r);
+                rotateLoading = v.findViewById(R.id.rotateloading);
+                EtSearch = v.findViewById(R.id.et_search);
+                swipeRefreshLayout = v.findViewById(R.id.swiperefresh);
+                filter = v.findViewById(R.id.btnfilter);
+                search = v.findViewById(R.id.btnsearch);
+                scheduleTrip = v.findViewById(R.id.btn_schedule_trip);
+                returnRideFeatures(returnDriverName,returnStartLocation,returnDestinationLocation);
             }
-        });
-        scheduleTrip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        }
+        else
+        {
+            ride_id = sharedPreferences.getString("id", "No value");
+            ride_name = sharedPreferences.getString("name", "No value");
+            ride_number = sharedPreferences.getString("number", "No value");
+            ride_image = sharedPreferences.getString("profile_pic", "No value");
+            listView = v.findViewById(R.id.listview);
+            relativeLayout = v.findViewById(R.id.r);
+            rotateLoading = v.findViewById(R.id.rotateloading);
+            EtSearch = v.findViewById(R.id.et_search);
+            swipeRefreshLayout = v.findViewById(R.id.swiperefresh);
+            filter = v.findViewById(R.id.btnfilter);
+            search = v.findViewById(R.id.btnsearch);
+            scheduleTrip = v.findViewById(R.id.btn_schedule_trip);
+            //check for return ride parameters
 
-               ScheduleTripdialog();
+
+
+
+            filter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Filterdialog();
+                }
+            });
+            scheduleTrip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    ScheduleTripdialog();
+                }
+            });
+
+
+            search.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                }
+            });
+
+
+            if (new Check_internet_connection(getActivity()).isNetworkAvailable()) {
+
+                new GetAllRides().execute();
+
+            } else {
+                Toast.makeText(getActivity(),
+                        getActivity().getResources().getString(R.string.check_internet_connection), Toast.LENGTH_LONG).show();
             }
-        });
 
 
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    listview_click(id, position);
+                }
+            });
 
 
-            }
-        });
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
 
+                    if (new Check_internet_connection(getActivity().getApplicationContext()).isNetworkAvailable()) {
 
-        if (new Check_internet_connection(getActivity()).isNetworkAvailable()) {
+                        relativeLayout.setVisibility(View.VISIBLE);
+                        rotateLoading.start();
+                        arrayList.clear();
+                        new GetAllRides().execute();
+                        swipeRefreshLayout.setRefreshing(false);
 
-            new GetAllRides().execute();
+                    } else {
 
-        } else {
-            Toast.makeText(getActivity(),
-                    getActivity().getResources().getString(R.string.check_internet_connection), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity().getApplicationContext(),
+                                "Check your Internet Connection", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            });
         }
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                listview_click(id, position);
-            }
-        });
 
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
+    }
 
-                if (new Check_internet_connection(getActivity().getApplicationContext()).isNetworkAvailable()) {
+    public void returnRideFeatures(String driverName, String startLoaction, String destination) {
+        listView = v.findViewById(R.id.listview);
+        RelativeLayout searchfilter = (RelativeLayout) v.findViewById(R.id.search_filter);
+        CoordinatorLayout floatButton = (CoordinatorLayout) v.findViewById(R.id.rootLayout_floatbtn);
+        searchfilter.setVisibility(View.GONE);
+        floatButton.setVisibility(View.GONE);
 
-                    relativeLayout.setVisibility(View.VISIBLE);
-                    rotateLoading.start();
-                    arrayList.clear();
-                    new GetAllRides().execute();
-                    swipeRefreshLayout.setRefreshing(false);
-
-                } else {
-
-                    Toast.makeText(getActivity().getApplicationContext(),
-                            "Check your Internet Connection", Toast.LENGTH_LONG).show();
-                }
-
-            }
-        });
-
+        if (adapter.returnRideFilter(driverName,startLoaction,destination)!=null&&!adapter.returnRideFilter(driverName,startLoaction,destination).isEmpty()){
+            AllRidesAdapter returnRideAdapter = new AllRidesAdapter(getActivity(), adapter.returnRideFilter(driverName,startLoaction, destination));
+            listView.setAdapter(returnRideAdapter);
+        }
+        else
+        {
+            AllRidesAdapter emptyadapter = new AllRidesAdapter(getActivity(),
+                    adapter.emptyArray());
+            listView.setAdapter(emptyadapter);
+            listView.setVisibility(View.GONE);
+        }
 
     }
 
@@ -222,7 +270,6 @@ public class FragmentAllRides extends Fragment {
             bundle.putString("Destlon", dest_lan[position]);
             bundle.putString("Destname", dest_name[position]);
             fragment.setArguments(bundle);
-
             assert getFragmentManager() != null;
             getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).
                     addToBackStack("tag").commit();
@@ -666,9 +713,7 @@ public class FragmentAllRides extends Fragment {
                                     adapter.getFilter().filter(charSequence);
                                 } else if (search_value.equals("destination")) {
                                     adapter.getFilter2().filter(charSequence);
-                                }
-                                else
-                                {
+                                } else {
                                     Toast.makeText(getActivity(), "please select source or destination", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -781,26 +826,23 @@ public class FragmentAllRides extends Fragment {
         Button btnDone;
 
         btnDone = dialog.findViewById(R.id.btn_done);
-        source=dialog.findViewById(R.id.source_city);
-        destination=dialog.findViewById(R.id.destination_city);
+        source = dialog.findViewById(R.id.source_city);
+        destination = dialog.findViewById(R.id.destination_city);
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (!source.getText().toString().equals("") &&!destination.getText().toString().equals(""))
-                {
-                    sourceCity=source.getText().toString();
-                    destinationCity=destination.getText().toString();
+                if (!source.getText().toString().equals("") && !destination.getText().toString().equals("")) {
+                    sourceCity = source.getText().toString();
+                    destinationCity = destination.getText().toString();
                     AllRidesAdapter emptyadapter = new AllRidesAdapter(getActivity(),
                             adapter.emptyArray());
                     listView.setAdapter(emptyadapter);
-                   AllRidesAdapter scheduleRideAdapter=new AllRidesAdapter(getActivity(),adapter.getFilter3(sourceCity,destinationCity)) ;
+                    AllRidesAdapter scheduleRideAdapter = new AllRidesAdapter(getActivity(), adapter.secheduleRideFilter(sourceCity, destinationCity));
                     listView.setAdapter(scheduleRideAdapter);
                     dialog.dismiss();
-                }
-                else
-                {
-                    Toast.makeText(getActivity(),"Enter Source & Destination", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Enter Source & Destination", Toast.LENGTH_SHORT).show();
 
                 }
 

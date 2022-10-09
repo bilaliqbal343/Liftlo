@@ -358,7 +358,7 @@ public class AllRidesAdapter extends BaseAdapter implements Filterable {
         };
         return filter;
     }
-    public ArrayList<Filter_model> getFilter3(String source, String destination) {
+    public ArrayList<Filter_model> secheduleRideFilter(String source, String destination) {
                 ArrayList<Filter_model> FilteredArrList = new ArrayList<>();
 
                 if (mOriginalValues == null) {
@@ -401,6 +401,55 @@ public class AllRidesAdapter extends BaseAdapter implements Filterable {
                     }
 
                     // set the Filtered result to return
+
+
+        return FilteredArrList;
+    }
+    public ArrayList<Filter_model> returnRideFilter(String driverName, String startLocation, String destinationLocation) {
+        //in this we reverse the incoming locations to book return ride
+        ArrayList<Filter_model> FilteredArrList = new ArrayList<>();
+
+        if (mOriginalValues == null) {
+            mOriginalValues = new ArrayList<Filter_model>(mDisplayedValues); // saves the original data in mOriginalValues
+        }
+
+
+                  /*  // set the Original result to return
+                    results.count = mOriginalValues.size();
+                    results.values = mOriginalValues;*/
+        int size=mOriginalValues.size();
+        for (int i = 0; i < size; i++) {
+            String data3=mOriginalValues.get(i).getDriver_name();
+            String data2 = mOriginalValues.get(i).getDest_name();
+            String data1 = mOriginalValues.get(i).getStart_name();
+            if ((data1.toLowerCase().trim().contains(destinationLocation.toLowerCase().trim()))&&(data2.toLowerCase().contains(startLocation.toLowerCase().trim()))&&(data3.toLowerCase().trim().equals(driverName.toLowerCase().trim()))) {
+                FilteredArrList.add(new Filter_model(mOriginalValues.get(i).booked_seats
+                        , mOriginalValues.get(i).status
+                        , mOriginalValues.get(i).date
+                        ,mOriginalValues.get(i).time
+                        ,mOriginalValues.get(i).driver_name
+                        ,mOriginalValues.get(i).driver_number
+                        ,mOriginalValues.get(i).start_name
+                        ,mOriginalValues.get(i).dest_name
+                        ,mOriginalValues.get(i).seat_no
+                        ,mOriginalValues.get(i).seat_cost
+                        ,mOriginalValues.get(i).car_name
+                        ,mOriginalValues.get(i).car_color
+                        ,mOriginalValues.get(i).ac
+                        ,mOriginalValues.get(i).music
+                        ,mOriginalValues.get(i).smoking
+                        ,mOriginalValues.get(i).rating
+                        ,mOriginalValues.get(i).driver_image) );
+
+
+            }
+        }
+        if (FilteredArrList.size()<=0)
+        {
+            Toast.makeText(con, "Ask the driver to schedule the ride first", Toast.LENGTH_SHORT).show();
+        }
+
+        // set the Filtered result to return
 
 
         return FilteredArrList;

@@ -1,16 +1,21 @@
 package com.app.liftlo.Driver.History;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.app.liftlo.Driver.Home.FragmentRideInfo;
 import com.app.liftlo.R;
+import com.app.liftlo.Ride.Home.FragmentAllRides;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -22,6 +27,7 @@ public class RideHistoryAdapter extends BaseAdapter {
 
     Boolean isride;
     Activity con;
+    Fragment fragment;
     String[] date, time, name, driver_id, startName, destName, seats, cost;
 
     public RideHistoryAdapter(Activity contex, String[] driver_id, String[] name
@@ -100,6 +106,15 @@ public class RideHistoryAdapter extends BaseAdapter {
         } else {
             viewholder.returnRide.setVisibility(View.GONE);
         }
+        viewholder.returnRide.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                ((ListView) parent).performItemClick(v, position, 1);
+
+
+            }
+        });
 
 
         return convertView;
