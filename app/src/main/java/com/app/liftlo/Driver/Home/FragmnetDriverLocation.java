@@ -401,6 +401,7 @@ public class FragmnetDriverLocation extends Fragment implements OnMapReadyCallba
                     Bundle bundle = new Bundle();
                     bundle.putString("lat", dblLat + "");
                     bundle.putString("lon", dblLon + "");
+                    bundle.putString("StartName",location);
                     fragment.setArguments(bundle);
 
                     getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).

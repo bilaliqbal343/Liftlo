@@ -41,6 +41,7 @@ import com.app.liftlo.Ride.MyRides.FragmentMyRides;
 import com.app.liftlo.utils.Check_internet_connection;
 import com.app.liftlo.utils.JsonParser;
 import com.app.liftlo.utils.ServerURL;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.victor.loading.rotate.RotateLoading;
 
 import org.json.JSONArray;
@@ -91,7 +92,7 @@ public class FragmentAllRides extends Fragment {
     EditText EtSearch;
     SwipeRefreshLayout swipeRefreshLayout;
     ImageButton filter, search;
-    Button scheduleTrip;
+    FloatingActionButton scheduleTrip;
     EditText source,destination;
     String sourceCity,destinationCity;
 

@@ -62,7 +62,7 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
     Handler handler;
     EditText loc;
     ImageView currentLoc, getloc;
-    String location="", StartingName;
+    String location="", StartingName,startlocation;
     LatLng Search_latLng;
     Marker marker;
     RotateLoading rotateLoading; Bitmap smallMarker;
@@ -91,6 +91,7 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
         if (bundle != null) {
             StartingLat = bundle.getString("lat");
             StartingLan = bundle.getString("lon");
+            startlocation=bundle.getString("StartName");
             Log.e("startLatLan", StartingLat+","+StartingLan);
 
             GeoCodefromLatLan();
@@ -396,7 +397,7 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
                     bundle.putString("Destlat", dblLat + "");
                     bundle.putString("Destlon", dblLon + "");
                     bundle.putString("Destname", location + "");
-                    bundle.putString("StartName", StartingName);
+                    bundle.putString("StartName", startlocation);
                     fragment.setArguments(bundle);
 
                     getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).
