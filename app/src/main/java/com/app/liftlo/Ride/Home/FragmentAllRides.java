@@ -126,12 +126,12 @@ public class FragmentAllRides extends Fragment {
         sharedPreferences = getActivity().getSharedPreferences("DataStore", Context.MODE_PRIVATE);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            returnDriverName = bundle.getString("returnDriverName","");
-            returnStartLocation = bundle.getString("returnStartName","");
-            returnDestinationLocation = bundle.getString("returnDestinationName","");
+            returnDriverName = bundle.getString("returnDriverName", "");
+            returnStartLocation = bundle.getString("returnStartName", "");
+            returnDestinationLocation = bundle.getString("returnDestinationName", "");
             if (!returnDriverName.equals("") && !returnStartLocation.equals("") && !returnDestinationLocation.equals("")) {
                 new GetAllRides().execute();
-                adapter=new AllRidesAdapter(getActivity(),new ArrayList<Filter_model>());
+                adapter = new AllRidesAdapter(getActivity(), new ArrayList<Filter_model>());
                 relativeLayout = v.findViewById(R.id.r);
                 rotateLoading = v.findViewById(R.id.rotateloading);
                 EtSearch = v.findViewById(R.id.et_search);
@@ -139,11 +139,9 @@ public class FragmentAllRides extends Fragment {
                 filter = v.findViewById(R.id.btnfilter);
                 search = v.findViewById(R.id.btnsearch);
                 scheduleTrip = v.findViewById(R.id.btn_schedule_trip);
-                returnRideFeatures(returnDriverName,returnStartLocation,returnDestinationLocation);
+                returnRideFeatures(returnDriverName, returnStartLocation, returnDestinationLocation);
             }
-        }
-        else
-        {
+        } else {
             ride_id = sharedPreferences.getString("id", "No value");
             ride_name = sharedPreferences.getString("name", "No value");
             ride_number = sharedPreferences.getString("number", "No value");
@@ -157,8 +155,6 @@ public class FragmentAllRides extends Fragment {
             search = v.findViewById(R.id.btnsearch);
             scheduleTrip = v.findViewById(R.id.btn_schedule_trip);
             //check for return ride parameters
-
-
 
 
             filter.setOnClickListener(new View.OnClickListener() {
@@ -228,8 +224,6 @@ public class FragmentAllRides extends Fragment {
         }
 
 
-
-
     }
 
     public void returnRideFeatures(String driverName, String startLoaction, String destination) {
@@ -239,12 +233,10 @@ public class FragmentAllRides extends Fragment {
         searchfilter.setVisibility(View.GONE);
         floatButton.setVisibility(View.GONE);
 
-        if (adapter.returnRideFilter(driverName,startLoaction,destination)!=null&&!adapter.returnRideFilter(driverName,startLoaction,destination).isEmpty()){
-            AllRidesAdapter returnRideAdapter = new AllRidesAdapter(getActivity(), adapter.returnRideFilter(driverName,startLoaction, destination));
+        if (adapter.returnRideFilter(driverName, startLoaction, destination) != null && !adapter.returnRideFilter(driverName, startLoaction, destination).isEmpty()) {
+            AllRidesAdapter returnRideAdapter = new AllRidesAdapter(getActivity(), adapter.returnRideFilter(driverName, startLoaction, destination));
             listView.setAdapter(returnRideAdapter);
-        }
-        else
-        {
+        } else {
             AllRidesAdapter emptyadapter = new AllRidesAdapter(getActivity(),
                     adapter.emptyArray());
             listView.setAdapter(emptyadapter);

@@ -1,33 +1,42 @@
 {
   "project_info": {
-    "project_number": "735924516041",
-    "project_id": "liftlo-507a6",
-    "storage_bucket": "liftlo-507a6.appspot.com"
+    "project_number": "733639522191",
+    "firebase_url": "https://liftlo-86d5f-default-rtdb.firebaseio.com",
+    "project_id": "liftlo-86d5f",
+    "storage_bucket": "liftlo-86d5f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:735924516041:android:afa82a297b9667b6144918",
+        "mobilesdk_app_id": "1:733639522191:android:ff36fc8b2590d2577efdfa",
         "android_client_info": {
           "package_name": "com.app.liftlo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "735924516041-u8l721us389adu1hqt3543t1i6om4kjs.apps.googleusercontent.com",
+          "client_id": "733639522191-mmf6qheoc6vmgrosqgf8lmghb5kfvkuj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.liftlo",
+            "certificate_hash": "5d3cdb1203582d7705006734da8d26bb4cd7417a"
+          }
+        },
+        {
+          "client_id": "733639522191-tg8ml4p0e1es81ue71fha3kj7q7juo0a.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCnie7NeOKKSUGFMEaC1qE-Bs40BDruBy4"
+          "current_key": "AIzaSyBTEZu1FVLLHyKhZ3Qri1nK1Cog5joTVuE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "735924516041-u8l721us389adu1hqt3543t1i6om4kjs.apps.googleusercontent.com",
+              "client_id": "733639522191-tg8ml4p0e1es81ue71fha3kj7q7juo0a.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -94,7 +94,6 @@ public class FragmentRideHistory extends Fragment {
     public void listview_click(long id,int position) {
 
         if (id == 1) {
-
             Bundle bundle= new Bundle();
             bundle.putString("returnDriverName",name[position]);
             bundle.putString("returnStartName",start_name[position]);
