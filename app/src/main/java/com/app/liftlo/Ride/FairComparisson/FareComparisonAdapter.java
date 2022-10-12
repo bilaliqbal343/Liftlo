@@ -17,9 +17,9 @@ public class FareComparisonAdapter extends BaseAdapter {
     private ArrayList<FareComparisonModel> mDisplayedValues;    // Values to be displayed
 
 
-    public FareComparisonAdapter(Activity con, ArrayList<FareComparisonModel> mProductArrayList) {
+    public FareComparisonAdapter(Activity con, ArrayList<FareComparisonModel> mFareArrayList) {
         this.con = con;
-        this.mDisplayedValues = mProductArrayList;
+        this.mDisplayedValues = mFareArrayList;
     }
 
     @Override

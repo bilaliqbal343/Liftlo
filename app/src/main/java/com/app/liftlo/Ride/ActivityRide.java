@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import com.app.liftlo.Ride.FairComparisson.FairComparisonFragment;
 import com.google.android.material.navigation.NavigationView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -158,7 +160,13 @@ public class ActivityRide extends AppCompatActivity
                 for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
-                fragment = new FragmentAllDrivers();
+            case R.id.nav_menu7:
+
+                fm = getSupportFragmentManager();
+                for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                    fm.popBackStack();
+                }
+                fragment = new FairComparisonFragment();
                 break;
             case R.id.nav_menu5:
                 logout();
