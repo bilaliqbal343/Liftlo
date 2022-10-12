@@ -28,7 +28,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
     //for in app call
-    implementation 'im.zego:express-audio:2.23.0'
+    implementation 'com.github.ZEGOCLOUD:zego_uikit_prebuilt_call_android:1.1.4'
 
     implementation 'androidx.multidex:multidex:2.0.0'
 

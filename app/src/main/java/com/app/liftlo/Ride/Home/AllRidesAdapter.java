@@ -1,6 +1,5 @@
 package com.app.liftlo.Ride.Home;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -17,18 +16,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.app.liftlo.R;
 import com.app.liftlo.utils.ServerURL;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-/**
- * Created by Bilal on 17-Feb-17.
- */
 
 public class AllRidesAdapter extends BaseAdapter implements Filterable {
 

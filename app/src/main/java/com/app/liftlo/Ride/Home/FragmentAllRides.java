@@ -228,6 +228,7 @@ public class FragmentAllRides extends Fragment {
 
     public void returnRideFeatures(String driverName, String startLoaction, String destination) {
         listView = v.findViewById(R.id.listview);
+        getActivity().setTitle("Return Ride");
         RelativeLayout searchfilter = (RelativeLayout) v.findViewById(R.id.search_filter);
         CoordinatorLayout floatButton = (CoordinatorLayout) v.findViewById(R.id.rootLayout_floatbtn);
         searchfilter.setVisibility(View.GONE);

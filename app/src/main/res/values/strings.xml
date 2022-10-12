@@ -98,8 +98,6 @@
     <string name="start_ride">Start Ride</string>
 
 
-
-
     <string name="all_rides">All Rides</string>
     <string name="my_ride_requests">My Ride Requests</string>
     <string name="browse_image">Browse Image</string>
@@ -170,7 +168,8 @@
     <string name="title_activity_register_selection">RegisterSelection</string>
     <string name="enter_your_father_name">Enter your father name</string>
     <string name="all_drivers">All drivers</string>
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
