@@ -29,7 +29,6 @@ dependencies {
     implementation "androidx.coordinatorlayout:coordinatorlayout:1.2.0"
 
 
-
     implementation 'androidx.multidex:multidex:2.0.0'
 
     implementation 'io.nlopez.smartlocation:library:3.3.1'
@@ -58,7 +57,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
     implementation 'id.zelory:compressor:2.1.0'
 
-
+//for inapp call
+    implementation 'io.agora.rtc:voice-sdk:4.0.1'
     implementation 'com.google.firebase:firebase-auth:16.0.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

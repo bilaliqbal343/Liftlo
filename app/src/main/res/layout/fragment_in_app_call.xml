@@ -1,35 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="UTF-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#fff"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-<ImageView
-    android:id="@+id/img_call"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:src="@drawable/logo"/>
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/rootLayout_floatbtn"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_schedule_trip"
+        <TextView
+            android:id="@+id/infoText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="30dp"
-            android:backgroundTint="@android:color/holo_red_dark"
-            android:src="@drawable/phonecallicon"
-            fab:elevation="6dp"
-            fab:pressedTranslationZ="12dp" />
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentTop="true"
+            android:text="Press the button to join a channel" />
 
+        <Button
+            android:id="@+id/joinLeaveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/infoText"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:onClick="joinLeaveChannel"
+            android:text="Join" />
 
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

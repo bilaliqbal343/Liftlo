@@ -118,7 +118,7 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
                 addressList = geocoder.getFromLocationName(location, 1);
 
                 if (addressList.size() > 0) {
-
+                    location = addressList.get(0).getFeatureName();
                     rotateLoading.stop();
                     rotateLoading.setVisibility(View.GONE);
                     getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -378,7 +378,7 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
             @Override
             public void onClick(View v) {
 
-                if (location.equals("")) {
+                if (loc.getText().toString().equals("")) {
                     Toast.makeText(getActivity(), "Enter Destination Location", Toast.LENGTH_SHORT).show();
                     getLocationAndMoveCamera();
                 } else {
@@ -414,7 +414,7 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
                     Double.parseDouble(StartingLan), 1);
             if (addresses.size() > 0) {
 
-                StartingName = addresses.get(0).getLocality();
+                StartingName = addresses.get(0).getFeatureName();
 
 
                 Log.e("geocode", StartingName);
