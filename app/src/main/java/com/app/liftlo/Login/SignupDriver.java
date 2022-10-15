@@ -458,7 +458,7 @@ public class SignupDriver extends AppCompatActivity {
                         Log.e("TAG", "IOException: " + e);
                     }
                     if (camerafile2 != null) {
-                        file_uri = FileProvider.getUriForFile(SignupDriver.this, "com.dzone.ridesharing.fileprovider", camerafile2);
+                        file_uri = FileProvider.getUriForFile(SignupDriver.this, "com.app.liftlo.fileprovider", camerafile2);
                         Log.e("TAG", "shah uri: " + file_uri);
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, file_uri);
                         startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO2);
