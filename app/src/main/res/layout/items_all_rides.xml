@@ -297,18 +297,14 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-
-        <ImageButton
+        <com.zegocloud.uikit.prebuilt.call.invite.ZegoStartCallInvitationButton
             android:id="@+id/call"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:background="@drawable/button_background"
-            android:tint="#fff"
-            app:srcCompat="@drawable/call" />
-
+            />
 
         <ImageButton
             android:id="@+id/map"
@@ -318,8 +314,8 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:background="@drawable/button_background"
-            android:tint="#fff"
-            app:srcCompat="@drawable/marker" />
+            app:srcCompat="@drawable/marker"
+            app:tint="#fff" />
 
 
     </LinearLayout>

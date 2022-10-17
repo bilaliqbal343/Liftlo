@@ -24,8 +24,11 @@ import com.app.liftlo.Ride.ActivityRide;
 import com.app.liftlo.utils.Check_internet_connection;
 import com.app.liftlo.utils.JsonParser;
 import com.app.liftlo.utils.ServerURL;
+
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
+
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker;
@@ -62,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     RotateLoading rotateLoading;
     RelativeLayout relativeLayout;
-    String FbToken;
+    String FbToken="";
     CountryCodePicker countryCodePicker;
     FirebaseAnalytics mFirebaseAnalytics;
 
@@ -73,11 +76,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-
+        FirebaseApp.initializeApp(getApplicationContext());
         //get token firebase
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(LoginActivity.this, new OnSuccessListener<InstanceIdResult>() {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
+
                 FbToken = instanceIdResult.getToken();
                 Log.e("Token", FbToken);
             }

@@ -1,172 +1,113 @@
 package com.app.liftlo.Ride.InAppCall;
 
-import static io.agora.base.internal.ContextUtils.getApplicationContext;
 
+import android.app.Application;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.app.liftlo.R;
+import com.google.android.material.textfield.TextInputLayout;
+import com.zegocloud.uikit.components.invite.ZegoInvitationType;
+import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoMenuBarButtonName;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoCallInvitationData;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoStartCallInvitationButton;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallConfigProvider;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
+import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import io.agora.rtc2.Constants;
-import io.agora.rtc2.IRtcEngineEventHandler;
-import io.agora.rtc2.RtcEngine;
-import io.agora.rtc2.RtcEngineConfig;
-import io.agora.rtc2.ChannelMediaOptions;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Random;
 
 
 public class InAppCallFragment extends Fragment {
-    private static final int PERMISSION_REQ_ID = 22;
-    private static final String[] REQUESTED_PERMISSIONS =
-            {
-                    Manifest.permission.RECORD_AUDIO
-            };
+
     View v;
 
-    void showMessage(String message) {
-
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    // Fill the App ID of your project generated on Agora Console.
-    private final String appId = "0e278e808140490599162ea990e46558";
-    // Fill the channel name.
-    private String channelName = "bilal";
-    // Fill the temp token generated on Agora Console.
-    private String token = "0486d341658a486e9a316c7845763eb4";
-    // An integer that identifies the local user.
-    private int uid = 0;
-    // Track the status of your connection
-    private boolean isJoined = false;
-
-    // Agora engine instance
-    private RtcEngine agoraEngine;
-    // UI elements
-    private TextView infoText;
-    private Button joinLeaveButton;
-
-    private void setupVoiceSDKEngine() {
-        try {
-            RtcEngineConfig config = new RtcEngineConfig();
-            config.mContext = requireContext();
-            config.mAppId = appId;
-            config.mEventHandler = mRtcEventHandler;
-            agoraEngine = RtcEngine.create(config);
-        } catch (Exception e) {
-            throw new RuntimeException("Check the error.");
-        }
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.fragment_in_app_call, container, false);
+        TextView yourUserID = v.findViewById(R.id.your_user_id);
+        String generateUserID = generateUserID();
+        yourUserID.setText("Your User ID :" + generateUserID);
 
-        init();
-// If all the permissions are granted, initialize the RtcEngine object and join a channel.
-        if (!checkSelfPermission()) {
-            ActivityCompat.requestPermissions(requireActivity(), REQUESTED_PERMISSIONS, PERMISSION_REQ_ID);
-        }
+        initCallInviteService(generateUserID);
 
-        setupVoiceSDKEngine();
+        initVoiceButton();
+
+        initVideoButton();
+
         return v;
     }
 
-    public void init() {
-// Set up access to the UI elements
-        joinLeaveButton = (Button) v.findViewById(R.id.joinLeaveButton);
-        infoText = v.findViewById(R.id.infoText);
-        joinLeaveButton.setOnClickListener(new View.OnClickListener() {
+    private void initVideoButton() {
+        ZegoStartCallInvitationButton newVideoCall = v.findViewById(R.id.new_video_call);
+        newVideoCall.setIsVideoCall(true);
+        newVideoCall.setOnClickListener(v -> {
+
+            String targetUserID = "030023233";
+            newVideoCall.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
+        });
+    }
+
+    private void initVoiceButton() {
+        ZegoStartCallInvitationButton newVoiceCall = v.findViewById(R.id.new_voice_call);
+        newVoiceCall.setIsVideoCall(false);
+        newVoiceCall.setOnClickListener(v -> {
+            String targetUserID = "030023233";
+            newVoiceCall.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
+        });
+    }
+
+    public void initCallInviteService(String generateUserID) {
+        long appID = 2045343670;
+        String appSign = "3789fdd89be894a239a0667858fff7389be2d70bf0f4028094009d191c7ee87d";
+        String userID = generateUserID;
+        String userName = "Bilal";
+
+        ZegoUIKitPrebuiltCallInvitationService.init(new Application(), appID, appSign, userID, userName);
+        ZegoUIKitPrebuiltCallInvitationService.setPrebuiltCallConfigProvider(new ZegoUIKitPrebuiltCallConfigProvider() {
             @Override
-            public void onClick(View view) {
-                joinLeaveChannel(view);
+            public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
+                ZegoUIKitPrebuiltCallConfig callConfig = new ZegoUIKitPrebuiltCallConfig();
+                boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
+                callConfig.turnOnCameraWhenJoining = isVideoCall;
+                if (!isVideoCall) {
+                    callConfig.bottomMenuBarConfig.buttons = Arrays.asList(
+                            ZegoMenuBarButtonName.TOGGLE_MICROPHONE_BUTTON,
+                            ZegoMenuBarButtonName.SWITCH_AUDIO_OUTPUT_BUTTON,
+                            ZegoMenuBarButtonName.HANG_UP_BUTTON);
+                }
+                return callConfig;
             }
         });
-
     }
 
-    private boolean checkSelfPermission() {
-        if (ContextCompat.checkSelfPermission(requireContext(), REQUESTED_PERMISSIONS[0]) != PackageManager.PERMISSION_GRANTED) {
-            return false;
-        }
-        return true;
-    }
-
-    private final IRtcEngineEventHandler mRtcEventHandler = new IRtcEngineEventHandler() {
-        @Override
-        // Listen for the remote user joining the channel.
-        public void onUserJoined(int uid, int elapsed) {
-          infoText.setText("Remote user joined: " + uid);
-        }
-
-        @Override
-        public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
-            // Successfully joined a channel
-            isJoined = true;
-            showMessage("Joined Channel " + channel);
-            infoText.setText("Waiting for a remote user to join");
-        }
-
-        @Override
-        public void onUserOffline(int uid, int reason) {
-            // Listen for remote users leaving the channel
-            showMessage("Remote user offline " + uid + " " + reason);
-            if (isJoined) {
-                infoText.setText("Waiting for a remote user to join");
+    private String generateUserID() {
+        StringBuilder builder = new StringBuilder();
+        Random random = new Random();
+        while (builder.length() < 5) {
+            int nextInt = random.nextInt(10);
+            if (builder.length() == 0 && nextInt == 0) {
+                continue;
             }
+            builder.append(nextInt);
         }
-
-        @Override
-        public void onLeaveChannel(RtcStats stats) {
-            // Listen for the local user leaving the channel
-            infoText.setText("Press the button to join a channel");
-            isJoined = false;
-        }
-    };
-    private void joinChannel() {
-        ChannelMediaOptions options = new ChannelMediaOptions();
-        options.autoSubscribeAudio = true;
-        // Set both clients as the BROADCASTER.
-        options.clientRoleType = Constants.CLIENT_ROLE_BROADCASTER;
-        // Set the channel profile as BROADCASTING.
-        options.channelProfile = Constants.CHANNEL_PROFILE_LIVE_BROADCASTING;
-
-        // Join the channel with a temp token.
-        // You need to specify the user ID yourself, and ensure that it is unique in the channel.
-        agoraEngine.joinChannel(token, channelName, uid, options);
+        return builder.toString();
     }
-    public void joinLeaveChannel(View view) {
-        if (isJoined) {
-            agoraEngine.leaveChannel();
-            joinLeaveButton.setText("Join");
-        } else {
-            joinChannel();
-            joinLeaveButton.setText("Leave");
-        }
-    }
-    public void onDestroy() {
-        super.onDestroy();
-        agoraEngine.leaveChannel();
 
-        // Destroy the engine in a sub-thread to avoid congestion
-            RtcEngine.destroy();
-            agoraEngine = null;
-    }
+
 
 
 }

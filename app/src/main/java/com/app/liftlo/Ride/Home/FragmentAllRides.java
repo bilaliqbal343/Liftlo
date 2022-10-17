@@ -1,6 +1,7 @@
 package com.app.liftlo.Ride.Home;
 
 import android.Manifest;
+import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -38,21 +39,34 @@ import android.widget.Toast;
 
 import com.app.liftlo.Driver.ManageRides.SeeLocation;
 import com.app.liftlo.R;
+import com.app.liftlo.Ride.InAppCall.InAppCallFragment;
 import com.app.liftlo.Ride.MyRides.FragmentMyRides;
 import com.app.liftlo.utils.Check_internet_connection;
 import com.app.liftlo.utils.JsonParser;
 import com.app.liftlo.utils.ServerURL;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 import com.victor.loading.rotate.RotateLoading;
+import com.zegocloud.uikit.components.invite.ZegoInvitationType;
+import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoMenuBarButtonName;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoCallInvitationData;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoStartCallInvitationButton;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallConfigProvider;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
+import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Random;
 
 
 public class FragmentAllRides extends Fragment {
@@ -121,7 +135,7 @@ public class FragmentAllRides extends Fragment {
     public void init() {
 
 
-        Objects.requireNonNull(getActivity()).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         sharedPreferences = getActivity().getSharedPreferences("DataStore", Context.MODE_PRIVATE);
         Bundle bundle = this.getArguments();
@@ -196,7 +210,7 @@ public class FragmentAllRides extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    listview_click(id, position);
+                    listview_click(id, position,view);
                 }
             });
 
@@ -247,10 +261,19 @@ public class FragmentAllRides extends Fragment {
     }
 
 
-    public void listview_click(long id, int position) {
+    public void listview_click(long id, int position,View view) {
 
         if (id == 1) {//call
-            make_call(driver_number[position]);
+            //make_call(driver_number[position]);
+            //String uid=generateUserID();
+
+
+           /* Fragment fragment = new InAppCallFragment();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.content_frame, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();*/
         } else if (id == 2) {//map
 
             Fragment fragment = new SeeLocation();
@@ -450,8 +473,6 @@ public class FragmentAllRides extends Fragment {
             try {
 
                 JSONObject obj = new JSONObject();
-
-
                 obj.put("operation", "update_seat");
                 obj.put("id", id_);
                 obj.put("booked_seats", addSeats + "");//
@@ -934,7 +955,53 @@ public class FragmentAllRides extends Fragment {
             Toast.makeText(getActivity(),
                     getActivity().getResources().getString(R.string.check_internet_connection), Toast.LENGTH_LONG).show();
         }
+        String uid=generateUserID();
+        initCallInviteService(uid);
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle(getActivity().getResources().getString(R.string.all_available_rides));
     }
+    private String generateUserID() {
+        StringBuilder builder = new StringBuilder();
+        Random random = new Random();
+        while (builder.length() < 5) {
+            int nextInt = random.nextInt(10);
+            if (builder.length() == 0 && nextInt == 0) {
+                continue;
+            }
+            builder.append(nextInt);
+        }
+        return builder.toString();
+    }
+    public void initCallInviteService(String generateUserID) {
+        long appID = 2045343670;
+        String appSign = "3789fdd89be894a239a0667858fff7389be2d70bf0f4028094009d191c7ee87d";
+        String userID = generateUserID;
+        String userName = ride_name;
+       Application appCtx = ((Application) getActivity().getApplication());
+        ZegoUIKitPrebuiltCallInvitationService.init(appCtx, appID, appSign, userID, userName);
+        ZegoUIKitPrebuiltCallInvitationService.setPrebuiltCallConfigProvider(new ZegoUIKitPrebuiltCallConfigProvider() {
+            @Override
+            public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
+                ZegoUIKitPrebuiltCallConfig callConfig = new ZegoUIKitPrebuiltCallConfig();
+                boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
+                callConfig.turnOnCameraWhenJoining = isVideoCall;
+                if (!isVideoCall) {
+                    callConfig.bottomMenuBarConfig.buttons = Arrays.asList(
+                            ZegoMenuBarButtonName.TOGGLE_MICROPHONE_BUTTON,
+                            ZegoMenuBarButtonName.SWITCH_AUDIO_OUTPUT_BUTTON,
+                            ZegoMenuBarButtonName.HANG_UP_BUTTON);
+                }
+                return callConfig;
+            }
+        });
+    }
+    /*private void initVoiceButton() {
+        ZegoStartCallInvitationButton newVoiceCall = findViewById(R.id.new_voice_call);
+        newVoiceCall.setIsVideoCall(false);
+        newVoiceCall.setOnClickListener(v -> {
+            TextInputLayout inputLayout = findViewById(R.id.target_user_id);
+            String targetUserID = inputLayout.getEditText().getText().toString();
+            newVoiceCall.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
+        });
+    }*/
 }

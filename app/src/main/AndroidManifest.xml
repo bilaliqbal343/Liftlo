@@ -91,7 +91,8 @@
         <!--</intent-filter>-->
 
         <activity android:name="com.app.liftlo.Splash"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -115,7 +116,8 @@
 
 
         <service
-            android:name="com.app.liftlo.utils.MyFirebaseMessagingService">
+            android:name="com.app.liftlo.utils.MyFirebaseMessagingService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>

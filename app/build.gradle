@@ -1,13 +1,11 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
-
 android {
-    compileSdkVersion 30
+    compileSdkVersion 32
     defaultConfig {
         multiDexEnabled true
         applicationId "com.app.liftlo"
-        minSdkVersion 19
-        targetSdkVersion 30
+        minSdkVersion 26
+        targetSdkVersion 32
         versionCode 2
         versionName "2.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -19,6 +17,24 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/com.android.tools/proguard/coroutines.pro'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+
 }
 
 dependencies {
@@ -58,9 +74,11 @@ dependencies {
     implementation 'id.zelory:compressor:2.1.0'
 
 //for inapp call
-    implementation 'io.agora.rtc:voice-sdk:4.0.1'
+    implementation 'com.github.ZEGOCLOUD:zego_uikit_prebuilt_call_android:1.1.2'
+
     implementation 'com.google.firebase:firebase-auth:16.0.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 }
+apply plugin: 'com.google.gms.google-services'
