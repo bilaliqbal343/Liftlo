@@ -1,6 +1,7 @@
 package com.app.liftlo.Login;
 
 import android.Manifest;
+import android.app.Application;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -41,6 +42,12 @@ import com.github.thunder413.datetimeutils.DateTimeUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.victor.loading.rotate.RotateLoading;
+import com.zegocloud.uikit.components.invite.ZegoInvitationType;
+import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoMenuBarButtonName;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoCallInvitationData;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallConfigProvider;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -49,6 +56,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -284,7 +292,7 @@ public class SignupActivity extends AppCompatActivity {
                         Log.e("TAG", "IOException: " + e);
                     }
                     if (camerafile1 != null) {
-                        file_uri = FileProvider.getUriForFile(SignupActivity.this, "com.dzone.ridesharing.fileprovider", camerafile1);
+                        file_uri = FileProvider.getUriForFile(SignupActivity.this, "com.app.liftlo.fileprovider", camerafile1);
                         Log.e("TAG", "shah uri: " + file_uri);
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, file_uri);
                         startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO1);
@@ -610,7 +618,7 @@ public class SignupActivity extends AppCompatActivity {
             if (server_check) {
 
                 if (server_response.equals("1")) {
-
+                  //  initCallInviteService(Snumber,Sname);
                     Toast.makeText(SignupActivity.this, getApplicationContext().getResources().getString(R.string.account_created_successfully),
                             Toast.LENGTH_SHORT).show();
 
@@ -723,7 +731,30 @@ public class SignupActivity extends AppCompatActivity {
 
 
     }
+    public void initCallInviteService(String phonenumber,String name) {
+        long appID = 2045343670;
+        String appSign = "3789fdd89be894a239a0667858fff7389be2d70bf0f4028094009d191c7ee87d";
+        String phone_number=phonenumber.replaceAll("92","");
+        String userID = phone_number;
+        String userName = name;
 
+        ZegoUIKitPrebuiltCallInvitationService.init(getApplication(), appID, appSign, userID, userName);
+        /*ZegoUIKitPrebuiltCallInvitationService.setPrebuiltCallConfigProvider(new ZegoUIKitPrebuiltCallConfigProvider() {
+            @Override
+            public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
+                ZegoUIKitPrebuiltCallConfig callConfig = new ZegoUIKitPrebuiltCallConfig();
+                boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
+                callConfig.turnOnCameraWhenJoining = isVideoCall;
+                if (!isVideoCall) {
+                    callConfig.bottomMenuBarConfig.buttons = Arrays.asList(
+                            ZegoMenuBarButtonName.TOGGLE_MICROPHONE_BUTTON,
+                            ZegoMenuBarButtonName.SWITCH_AUDIO_OUTPUT_BUTTON,
+                            ZegoMenuBarButtonName.HANG_UP_BUTTON);
+                }
+                return callConfig;
+            }
+        });*/
+    }
 
 }
 

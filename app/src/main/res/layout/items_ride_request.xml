@@ -241,16 +241,19 @@
 
 
 
-        <ImageButton
+
+        <com.zegocloud.uikit.prebuilt.call.invite.ZegoStartCallInvitationButton
             android:id="@+id/call"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:src="@drawable/call"
-            android:tint="#fff"
+            android:src="@drawable/marker"
+            android:text="Call"
+            android:textColor="@android:color/white"
             android:layout_height="45dp"
-            android:background="@drawable/button_background"/>
+            android:background="@drawable/button_background"
+            />
 
 
 

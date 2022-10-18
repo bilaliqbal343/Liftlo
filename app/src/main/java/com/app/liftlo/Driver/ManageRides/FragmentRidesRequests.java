@@ -8,9 +8,11 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +38,7 @@ public class FragmentRidesRequests extends Fragment {
     ListView listView;
     SharedPreferences sharedPreferences;
     String driver_id, share_ride_id, clicked_id, clicked_ride_id, clicked_status, total_seats, booked,
-            clicked_seat, reject="no";
+            clicked_seat, reject = "no";
     int seatCount;
     JSONObject jp_obj;
     JSONArray jar_array;
@@ -129,20 +131,18 @@ public class FragmentRidesRequests extends Fragment {
                     addToBackStack("tag").commit();
         } else if (id == 3) {//accept
 
-            if (remaining < 1){
+            if (remaining < 1) {
                 Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.limit_reached_cant_book_more), Toast.LENGTH_SHORT).show();
-            }
-            else if (Integer.parseInt(seat_no[position]) > remaining){
-                Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.only) +remaining+ getActivity().getResources().getString(R.string.seats_left), Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else if (Integer.parseInt(seat_no[position]) > remaining) {
+                Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.only) + remaining + getActivity().getResources().getString(R.string.seats_left), Toast.LENGTH_SHORT).show();
+            } else {
                 getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 relativeLayout.setVisibility(View.VISIBLE);
                 rotateLoading.start();
-                clicked_seat   = seat_no[position];
+                clicked_seat = seat_no[position];
                 seatCount = Integer.parseInt(clicked_seat) + Integer.parseInt(booked);
-                clicked_id     = table_id[position];
+                clicked_id = table_id[position];
                 clicked_status = "2";
                 clicked_ride_id = ride_id[position];
                 new UpdateRideRequest().execute();
@@ -154,7 +154,7 @@ public class FragmentRidesRequests extends Fragment {
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             relativeLayout.setVisibility(View.VISIBLE);
             rotateLoading.start();
-            clicked_id     = table_id[position];
+            clicked_id = table_id[position];
             clicked_status = "00";
             clicked_ride_id = ride_id[position];
             new UpdateRideRequest().execute();
@@ -316,7 +316,6 @@ public class FragmentRidesRequests extends Fragment {
     }
 
 
-
     public class UpdateRideRequest extends AsyncTask<String, Void, String> {
 
 
@@ -371,10 +370,8 @@ public class FragmentRidesRequests extends Fragment {
             return null;
         }
 
-
         @Override
         protected void onPostExecute(String s) {
-
 
 
             if (server_check) {
@@ -390,15 +387,14 @@ public class FragmentRidesRequests extends Fragment {
                     }
 
 
-                    if (reject.equals("yes")){
+                    if (reject.equals("yes")) {
                         Log.e("log", "booking canceled");
                         rotateLoading.stop();
                         relativeLayout.setVisibility(View.GONE);
                         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                         new GetRideRequests().execute();
-                    }
-                    else {
+                    } else {
                         new UpdateBookedSeats().execute();
                     }
 
@@ -414,9 +410,6 @@ public class FragmentRidesRequests extends Fragment {
             }
         }
     }
-
-
-
 
 
     public class UpdateBookedSeats extends AsyncTask<String, Void, String> {
@@ -436,7 +429,7 @@ public class FragmentRidesRequests extends Fragment {
 
                 obj.put("operation", "update_seat");
                 obj.put("id", share_ride_id);
-                obj.put("booked_seats", seatCount+"");
+                obj.put("booked_seats", seatCount + "");
 
 
                 String str_req = JsonParser.multipartFormRequestForFindFriends(ServerURL.Url, "UTF-8", obj, null);
@@ -485,8 +478,6 @@ public class FragmentRidesRequests extends Fragment {
 
         }
     }
-
-
 
 
     public void make_call(String number) {

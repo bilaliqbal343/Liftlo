@@ -65,17 +65,17 @@ public class FairComparisonFragment extends Fragment {
     public ArrayList<FareComparisonModel> getDummyFareComaprison() {
         ArrayList<FareComparisonModel> fareComparisonList = new ArrayList<FareComparisonModel>();
         fareComparisonList.add(new FareComparisonModel("Lahore", "Kasur", "100Rs"));
-        fareComparisonList.add(new FareComparisonModel("Lahore", "Kasur", "100Rs"));
-        fareComparisonList.add(new FareComparisonModel("Lahore", "Kasur", "100Rs"));
-        fareComparisonList.add(new FareComparisonModel("Lahore", "Kasur", "100Rs"));
-        fareComparisonList.add(new FareComparisonModel("Lahore", "Kasur", "100Rs"));
-        fareComparisonList.add(new FareComparisonModel("Lahore", "Kasur", "100Rs"));
-        fareComparisonList.add(new FareComparisonModel("Lahore", "Kasur", "100Rs"));
-        fareComparisonList.add(new FareComparisonModel("Lahore", "Kasur", "100Rs"));
-        fareComparisonList.add(new FareComparisonModel("Lahore", "Kasur", "100Rs"));
-        fareComparisonList.add(new FareComparisonModel("Lahore", "Kasur", "100Rs"));
-        fareComparisonList.add(new FareComparisonModel("Lahore", "Kasur", "100Rs"));
-        fareComparisonList.add(new FareComparisonModel("Lahore", "Kasur", "100Rs"));
+        fareComparisonList.add(new FareComparisonModel("Lahore", "Sahiwal", "400Rs"));
+        fareComparisonList.add(new FareComparisonModel("Lahore", "Multan", "900Rs"));
+        fareComparisonList.add(new FareComparisonModel("Lahore", "Gujranwala", "300Rs"));
+        fareComparisonList.add(new FareComparisonModel("Lahore", "Islamabad", "700Rs"));
+        fareComparisonList.add(new FareComparisonModel("Lahore", "Kashmir", "2000Rs"));
+        fareComparisonList.add(new FareComparisonModel("Lahore", "Jehlum", "700Rs"));
+        fareComparisonList.add(new FareComparisonModel("Lahore", "Gujrat", "500Rs"));
+        fareComparisonList.add(new FareComparisonModel("Lahore", "Khanewal", "900Rs"));
+        fareComparisonList.add(new FareComparisonModel("Lahore", "Okara", "400Rs"));
+        fareComparisonList.add(new FareComparisonModel("Lahore", "Chakwal", "700Rs"));
+        fareComparisonList.add(new FareComparisonModel("Lahore", "Pindi", "1000Rs"));
 
         return fareComparisonList;
 

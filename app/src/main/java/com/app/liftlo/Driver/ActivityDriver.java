@@ -1,10 +1,13 @@
 package com.app.liftlo.Driver;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import com.google.android.material.navigation.NavigationView;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -13,8 +16,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
+
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.MenuItem;
 
 import com.app.liftlo.Driver.MyProfile.FragmentDriverProfile;
@@ -25,6 +31,13 @@ import com.app.liftlo.Driver.Home.FragmnetDriverLocation;
 import com.app.liftlo.DriverTrackLive;
 import com.app.liftlo.Ride.Home.FragmentAllRides;
 import com.app.liftlo.R;
+import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoMenuBarButtonName;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoCallInvitationData;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallConfigProvider;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
+
+import java.util.Arrays;
 
 public class ActivityDriver extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,7 +48,11 @@ public class ActivityDriver extends AppCompatActivity
         setContentView(R.layout.activity_driver);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+//In onresume fetching value from sharedpreference
+        SharedPreferences sharedPreferences = getSharedPreferences("DataStore", Context.MODE_PRIVATE);
+        String name = sharedPreferences.getString("name", "");
+        String number = sharedPreferences.getString("number", "");
+        initCallInviteService(number, name);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -88,30 +105,29 @@ public class ActivityDriver extends AppCompatActivity
         Fragment fragment = null;
         FragmentManager fm;
 
-        //In onresume fetching value from sharedpreference
+
+//In onresume fetching value from sharedpreference
         SharedPreferences sharedPreferences = getSharedPreferences("DataStore", Context.MODE_PRIVATE);
-
-
         //initializing the fragment object which is selected
         switch (itemId) {
             case R.id.nav_menu1:
 
                 //remove fragments from backstack
                 fm = getSupportFragmentManager();
-                for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
 
                 //see if there is a current ride
                 if (sharedPreferences.getString("live", "").equals("yes")) {
                     fragment = new DriverTrackLive();
-                }else
-                fragment = new FragmnetDriverLocation();
+                } else
+                    fragment = new FragmnetDriverLocation();
                 break;
             case R.id.nav_menu2:
 
                 fm = getSupportFragmentManager();
-                for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
                 fragment = new FragmentMyRides();
@@ -119,7 +135,7 @@ public class ActivityDriver extends AppCompatActivity
             case R.id.nav_menu3:
 
                 fm = getSupportFragmentManager();
-                for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
                 fragment = new FragmentHistory();
@@ -127,7 +143,7 @@ public class ActivityDriver extends AppCompatActivity
             case R.id.nav_menu4:
 
                 fm = getSupportFragmentManager();
-                for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
                 fragment = new FragmentDriverProfile();
@@ -135,7 +151,7 @@ public class ActivityDriver extends AppCompatActivity
             case R.id.nav_menu6:
 
                 fm = getSupportFragmentManager();
-                for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
                 fragment = new FragmentAllRides();
@@ -143,7 +159,7 @@ public class ActivityDriver extends AppCompatActivity
             case R.id.nav_menu7:
 
                 fm = getSupportFragmentManager();
-                for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
                 fragment = new com.app.liftlo.Ride.MyRides.FragmentMyRides();
@@ -174,7 +190,6 @@ public class ActivityDriver extends AppCompatActivity
         //make this method blank
         return true;
     }
-
 
 
     private void logout() {
@@ -224,6 +239,36 @@ public class ActivityDriver extends AppCompatActivity
 
     }
 
+    public void initCallInviteService(String number, String name) {
+        long appID = 2045343670;
+        String appSign = "3789fdd89be894a239a0667858fff7389be2d70bf0f4028094009d191c7ee87d";
+        String phone_number = number.replaceAll("92", "");
+        String userID = phone_number;
+        String userName = name;
+        //Application appCtx = ((Application) getActivity().getApplication());
+        ZegoUIKitPrebuiltCallInvitationService.init(getApplication(), appID, appSign, userID, userName);
+        ZegoUIKitPrebuiltCallInvitationService.setPrebuiltCallConfigProvider(new ZegoUIKitPrebuiltCallConfigProvider() {
+            @Override
+            public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
+                ZegoUIKitPrebuiltCallConfig callConfig = new ZegoUIKitPrebuiltCallConfig();
+                /*boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
+                callConfig.turnOnCameraWhenJoining = isVideoCall;
+                if (!isVideoCall) {*/
+                callConfig.bottomMenuBarConfig.buttons = Arrays.asList(
+                        ZegoMenuBarButtonName.TOGGLE_MICROPHONE_BUTTON,
+                        ZegoMenuBarButtonName.SWITCH_AUDIO_OUTPUT_BUTTON,
+                        ZegoMenuBarButtonName.HANG_UP_BUTTON);
+
+                return callConfig;
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ZegoUIKitPrebuiltCallInvitationService.logout();
+    }
 
 
 }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.app.liftlo.Ride.FairComparisson.FairComparisonFragment;
 import com.google.android.material.navigation.NavigationView;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,6 +19,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -31,9 +33,18 @@ import com.app.liftlo.Ride.MyRides.FragmentMyRides;
 import com.app.liftlo.RideTrackLive;
 import com.app.liftlo.utils.JsonParser;
 import com.app.liftlo.utils.ServerURL;
+import com.zegocloud.uikit.components.invite.ZegoInvitationType;
+import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoMenuBarButtonName;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoCallInvitationData;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallConfigProvider;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.Arrays;
+import java.util.Random;
 
 public class ActivityRide extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -57,9 +68,9 @@ public class ActivityRide extends AppCompatActivity
         sharedPreferences = getSharedPreferences("DataStore", Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
         id = sharedPreferences.getString("id", "");
-
-
-
+        String name = sharedPreferences.getString("name", "");
+        String uid = generateUserID();
+        initCallInviteService(uid, name);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -83,27 +94,6 @@ public class ActivityRide extends AppCompatActivity
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.activity_main_drawer, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     private void displaySelectedScreen(int itemId) {
 
@@ -120,20 +110,20 @@ public class ActivityRide extends AppCompatActivity
             case R.id.nav_menu1:
 
                 fm = getSupportFragmentManager();
-                for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
 
                 //see if there is a current ride
                 if (sharedPreferences.getString("live", "").equals("yes")) {
                     fragment = new RideTrackLive();
-                }else
-                fragment = new FragmentAllRides();
+                } else
+                    fragment = new FragmentAllRides();
                 break;
             case R.id.nav_menu2:
 
                 fm = getSupportFragmentManager();
-                for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
                 fragment = new FragmentMyRides();
@@ -141,7 +131,7 @@ public class ActivityRide extends AppCompatActivity
             case R.id.nav_menu3:
 
                 fm = getSupportFragmentManager();
-                for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
                 fragment = new FragmentRideHistory();
@@ -149,7 +139,7 @@ public class ActivityRide extends AppCompatActivity
             case R.id.nav_menu4:
 
                 fm = getSupportFragmentManager();
-                for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
                 fragment = new FragmentRideProfile();
@@ -157,13 +147,13 @@ public class ActivityRide extends AppCompatActivity
             case R.id.nav_menu6:
 
                 fm = getSupportFragmentManager();
-                for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
             case R.id.nav_menu7:
 
                 fm = getSupportFragmentManager();
-                for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                     fm.popBackStack();
                 }
                 fragment = new FairComparisonFragment();
@@ -194,7 +184,6 @@ public class ActivityRide extends AppCompatActivity
         //make this method blank
         return true;
     }
-
 
 
     private void logout() {
@@ -248,9 +237,6 @@ public class ActivityRide extends AppCompatActivity
     }
 
 
-
-
-
     public class Logout extends AsyncTask<String, Void, String> {
 
 
@@ -299,7 +285,7 @@ public class ActivityRide extends AppCompatActivity
             } catch (Exception e) {
                 e.printStackTrace();
 
-                server_check=false;
+                server_check = false;
             }
 
 
@@ -315,12 +301,6 @@ public class ActivityRide extends AppCompatActivity
                 if (server_response.equals("1")) {
 
 
-
-
-
-
-
-
                 } else {
                     Toast.makeText(ActivityRide.this, server_response_text, Toast.LENGTH_SHORT).show();
 
@@ -332,6 +312,49 @@ public class ActivityRide extends AppCompatActivity
             }
 
         }
+    }
+
+    public void initCallInviteService(String number, String name) {
+        long appID = 2045343670;
+        String appSign = "3789fdd89be894a239a0667858fff7389be2d70bf0f4028094009d191c7ee87d";
+        String userID = number;
+        String userName = name;
+        //Application appCtx = ((Application) getActivity().getApplication());
+        ZegoUIKitPrebuiltCallInvitationService.init(getApplication(), appID, appSign, userID, userName);
+        ZegoUIKitPrebuiltCallInvitationService.setPrebuiltCallConfigProvider(new ZegoUIKitPrebuiltCallConfigProvider() {
+            @Override
+            public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
+                ZegoUIKitPrebuiltCallConfig callConfig = new ZegoUIKitPrebuiltCallConfig();
+                boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
+                callConfig.turnOnCameraWhenJoining = isVideoCall;
+                if (!isVideoCall) {
+                    callConfig.bottomMenuBarConfig.buttons = Arrays.asList(
+                            ZegoMenuBarButtonName.TOGGLE_MICROPHONE_BUTTON,
+                            ZegoMenuBarButtonName.SWITCH_AUDIO_OUTPUT_BUTTON,
+                            ZegoMenuBarButtonName.HANG_UP_BUTTON);
+                }
+                return callConfig;
+            }
+        });
+    }
+
+    private String generateUserID() {
+        StringBuilder builder = new StringBuilder();
+        Random random = new Random();
+        while (builder.length() < 5) {
+            int nextInt = random.nextInt(10);
+            if (builder.length() == 0 && nextInt == 0) {
+                continue;
+            }
+            builder.append(nextInt);
+        }
+        return builder.toString();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ZegoUIKitPrebuiltCallInvitationService.logout();
     }
 
 

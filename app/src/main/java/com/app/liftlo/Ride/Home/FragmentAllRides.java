@@ -119,6 +119,7 @@ public class FragmentAllRides extends Fragment {
         v = inflater.inflate(R.layout.fragment_rides_requests, container, false);
 
 
+
         //get date and time if required ddMMyyyy_HHmmss
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         currentDateandTime = sdf.format(new Date());
@@ -169,7 +170,7 @@ public class FragmentAllRides extends Fragment {
             search = v.findViewById(R.id.btnsearch);
             scheduleTrip = v.findViewById(R.id.btn_schedule_trip);
             //check for return ride parameters
-
+            //initCallInviteService(ride_number,ride_name);
 
             filter.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -210,7 +211,7 @@ public class FragmentAllRides extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    listview_click(id, position,view);
+                    listview_click(id, position, view);
                 }
             });
 
@@ -261,19 +262,10 @@ public class FragmentAllRides extends Fragment {
     }
 
 
-    public void listview_click(long id, int position,View view) {
+    public void listview_click(long id, int position, View view) {
 
         if (id == 1) {//call
-            //make_call(driver_number[position]);
-            //String uid=generateUserID();
 
-
-           /* Fragment fragment = new InAppCallFragment();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.content_frame, fragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();*/
         } else if (id == 2) {//map
 
             Fragment fragment = new SeeLocation();
@@ -955,11 +947,12 @@ public class FragmentAllRides extends Fragment {
             Toast.makeText(getActivity(),
                     getActivity().getResources().getString(R.string.check_internet_connection), Toast.LENGTH_LONG).show();
         }
-        String uid=generateUserID();
-        initCallInviteService(uid);
+       // String uid = generateUserID();
+//        initCallInviteService("");
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle(getActivity().getResources().getString(R.string.all_available_rides));
     }
+
     private String generateUserID() {
         StringBuilder builder = new StringBuilder();
         Random random = new Random();
@@ -972,36 +965,31 @@ public class FragmentAllRides extends Fragment {
         }
         return builder.toString();
     }
-    public void initCallInviteService(String generateUserID) {
+/*
+    public void initCallInviteService(String number,String name) {
         long appID = 2045343670;
         String appSign = "3789fdd89be894a239a0667858fff7389be2d70bf0f4028094009d191c7ee87d";
-        String userID = generateUserID;
-        String userName = ride_name;
-       Application appCtx = ((Application) getActivity().getApplication());
+        String userID =number;
+        String userName = name;
+        Application appCtx = ((Application) getActivity().getApplication());
         ZegoUIKitPrebuiltCallInvitationService.init(appCtx, appID, appSign, userID, userName);
         ZegoUIKitPrebuiltCallInvitationService.setPrebuiltCallConfigProvider(new ZegoUIKitPrebuiltCallConfigProvider() {
             @Override
             public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
                 ZegoUIKitPrebuiltCallConfig callConfig = new ZegoUIKitPrebuiltCallConfig();
-                boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
+                *//*boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
                 callConfig.turnOnCameraWhenJoining = isVideoCall;
-                if (!isVideoCall) {
+                if (!isVideoCall) {*//*
                     callConfig.bottomMenuBarConfig.buttons = Arrays.asList(
                             ZegoMenuBarButtonName.TOGGLE_MICROPHONE_BUTTON,
                             ZegoMenuBarButtonName.SWITCH_AUDIO_OUTPUT_BUTTON,
                             ZegoMenuBarButtonName.HANG_UP_BUTTON);
-                }
+
                 return callConfig;
             }
         });
-    }
-    /*private void initVoiceButton() {
-        ZegoStartCallInvitationButton newVoiceCall = findViewById(R.id.new_voice_call);
-        newVoiceCall.setIsVideoCall(false);
-        newVoiceCall.setOnClickListener(v -> {
-            TextInputLayout inputLayout = findViewById(R.id.target_user_id);
-            String targetUserID = inputLayout.getEditText().getText().toString();
-            newVoiceCall.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
-        });
     }*/
+
+
 }
+

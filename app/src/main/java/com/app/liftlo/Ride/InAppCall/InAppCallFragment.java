@@ -2,17 +2,40 @@ package com.app.liftlo.Ride.InAppCall;
 
 
 import android.app.Application;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.app.liftlo.Driver.ActivityDriver;
+import com.app.liftlo.Driver.History.FragmentHistory;
+import com.app.liftlo.Driver.Home.FragmnetDriverLocation;
+import com.app.liftlo.Driver.MyProfile.FragmentDriverProfile;
+import com.app.liftlo.Driver.MyRides.FragmentMyRides;
+import com.app.liftlo.DriverTrackLive;
+import com.app.liftlo.Login.LoginActivity;
 import com.app.liftlo.R;
+import com.app.liftlo.Ride.Home.FragmentAllRides;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.zegocloud.uikit.components.invite.ZegoInvitationType;
 import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
@@ -28,55 +51,36 @@ import java.util.Collections;
 import java.util.Random;
 
 
-public class InAppCallFragment extends Fragment {
-
-    View v;
+public class InAppCallFragment extends AppCompatActivity {
 
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_in_app_call);
+        ZegoStartCallInvitationButton call;
+        SharedPreferences sharedPreferences = getSharedPreferences("DataStore", Context.MODE_PRIVATE);
+        call = (ZegoStartCallInvitationButton) findViewById(R.id.new_voice_call);
+        String phone_number;
+        Bundle extras = getIntent().getExtras();
+        if(extras == null) {
+            phone_number= null;
+        } else {
+            phone_number= extras.getString("phone_number");
+        }
+        String name = sharedPreferences.getString("name", "");
+        String uid = generateUserID();
+        initCallInviteService(uid, name);
+        call.setInvitees(Collections.singletonList(new ZegoUIKitUser(phone_number)));
 
-        v = inflater.inflate(R.layout.fragment_in_app_call, container, false);
-        TextView yourUserID = v.findViewById(R.id.your_user_id);
-        String generateUserID = generateUserID();
-        yourUserID.setText("Your User ID :" + generateUserID);
-
-        initCallInviteService(generateUserID);
-
-        initVoiceButton();
-
-        initVideoButton();
-
-        return v;
     }
-
-    private void initVideoButton() {
-        ZegoStartCallInvitationButton newVideoCall = v.findViewById(R.id.new_video_call);
-        newVideoCall.setIsVideoCall(true);
-        newVideoCall.setOnClickListener(v -> {
-
-            String targetUserID = "030023233";
-            newVideoCall.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
-        });
-    }
-
-    private void initVoiceButton() {
-        ZegoStartCallInvitationButton newVoiceCall = v.findViewById(R.id.new_voice_call);
-        newVoiceCall.setIsVideoCall(false);
-        newVoiceCall.setOnClickListener(v -> {
-            String targetUserID = "030023233";
-            newVoiceCall.setInvitees(Collections.singletonList(new ZegoUIKitUser(targetUserID)));
-        });
-    }
-
-    public void initCallInviteService(String generateUserID) {
+    public void initCallInviteService(String number, String name) {
         long appID = 2045343670;
         String appSign = "3789fdd89be894a239a0667858fff7389be2d70bf0f4028094009d191c7ee87d";
-        String userID = generateUserID;
-        String userName = "Bilal";
-
-        ZegoUIKitPrebuiltCallInvitationService.init(new Application(), appID, appSign, userID, userName);
+        String userID = number;
+        String userName = name;
+        //Application appCtx = ((Application) getActivity().getApplication());
+        ZegoUIKitPrebuiltCallInvitationService.init(getApplication(), appID, appSign, userID, userName);
         ZegoUIKitPrebuiltCallInvitationService.setPrebuiltCallConfigProvider(new ZegoUIKitPrebuiltCallConfigProvider() {
             @Override
             public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
@@ -107,7 +111,11 @@ public class InAppCallFragment extends Fragment {
         return builder.toString();
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        ZegoUIKitPrebuiltCallInvitationService.logout();
+    }
 
 
 }

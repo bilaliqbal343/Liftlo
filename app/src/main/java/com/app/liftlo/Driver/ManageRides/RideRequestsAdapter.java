@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.app.liftlo.utils.ServerURL;
 import com.app.liftlo.R;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoStartCallInvitationButton;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -64,7 +65,8 @@ public class RideRequestsAdapter extends BaseAdapter {
 
         TextView  TVdate, TVname, TVnumber, TVstatus, TVstartName, TVdestName, TVseats, TVcost;
         Button btnAccept, btnDecline;
-        ImageButton call, map;
+        ImageButton  map;
+        ZegoStartCallInvitationButton call;
         CircleImageView image;
 
     }
@@ -90,7 +92,8 @@ public class RideRequestsAdapter extends BaseAdapter {
             viewholder.TVcost = (TextView) convertView.findViewById(R.id.cost);
             viewholder.btnAccept = (Button) convertView.findViewById(R.id.accept);
             viewholder.btnDecline = (Button) convertView.findViewById(R.id.decline);
-            viewholder.call = (ImageButton) convertView.findViewById(R.id.call);
+            viewholder.call = (ZegoStartCallInvitationButton) convertView.findViewById(R.id.call);
+
             viewholder.map = (ImageButton) convertView.findViewById(R.id.map);
             viewholder.image = (CircleImageView) convertView.findViewById(R.id.profile_image);
 
@@ -143,7 +146,6 @@ public class RideRequestsAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                ((ListView) parent).performItemClick(v, position, 1);
             }
         });
 

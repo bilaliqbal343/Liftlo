@@ -83,6 +83,9 @@
         <activity
             android:name="com.app.liftlo.Ride.ActivityRide"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name="com.app.liftlo.Ride.InAppCall.InAppCallFragment"
+            android:theme="@style/AppTheme.inappcall"/>
 
         <!--<intent-filter>-->
             <!--<action android:name="ACTIVITY_DRIVER" />-->

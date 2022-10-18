@@ -118,7 +118,7 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
                 addressList = geocoder.getFromLocationName(location, 1);
 
                 if (addressList.size() > 0) {
-                    location = addressList.get(0).getFeatureName();
+                    location = addressList.get(0).getFeatureName()+","+addressList.get(0).getLocality();
                     rotateLoading.stop();
                     rotateLoading.setVisibility(View.GONE);
                     getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -414,7 +414,7 @@ public class FragmentDestination extends Fragment implements OnMapReadyCallback 
                     Double.parseDouble(StartingLan), 1);
             if (addresses.size() > 0) {
 
-                StartingName = addresses.get(0).getFeatureName();
+                StartingName = addresses.get(0).getFeatureName()+","+addresses.get(0).getLocality();
 
 
                 Log.e("geocode", StartingName);

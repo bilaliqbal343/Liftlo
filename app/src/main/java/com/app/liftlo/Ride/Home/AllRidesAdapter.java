@@ -19,10 +19,16 @@ import android.widget.Toast;
 import com.app.liftlo.R;
 import com.app.liftlo.utils.ServerURL;
 import com.bumptech.glide.Glide;
+import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoMenuBarButtonName;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoCallInvitationData;
 import com.zegocloud.uikit.prebuilt.call.invite.ZegoStartCallInvitationButton;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallConfigProvider;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
 import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -175,8 +181,7 @@ public class AllRidesAdapter extends BaseAdapter implements Filterable {
             public void onClick(View v) {
                 String phone_number=mDisplayedValues.get(position).driver_number.replaceAll("92","");
                 viewholder.call.setInvitees(Collections.singletonList(new ZegoUIKitUser(phone_number)));
-
-                //((ListView) parent).performItemClick(v, position, 1);
+                ((ListView) parent).performItemClick(v, position, 1);
             }
         });
 

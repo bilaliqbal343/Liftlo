@@ -1,5 +1,6 @@
 package com.app.liftlo.Driver.Home;
 
+import android.app.Application;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -31,11 +32,18 @@ import com.app.liftlo.R;
 import com.github.thunder413.datetimeutils.DateTimeUnits;
 import com.github.thunder413.datetimeutils.DateTimeUtils;
 import com.victor.loading.rotate.RotateLoading;
+import com.zegocloud.uikit.components.invite.ZegoInvitationType;
+import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
+import com.zegocloud.uikit.prebuilt.call.config.ZegoMenuBarButtonName;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoCallInvitationData;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallConfigProvider;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoUIKitPrebuiltCallInvitationService;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -123,8 +131,6 @@ public class FragmentRideInfo extends Fragment {
         music = v.findViewById(R.id.music);
         smoke = v.findViewById(R.id.smoke);
         send = v.findViewById(R.id.add);
-
-
         start_loc.setText(StartingName);
         dest_loc.setText(DestName);
         model.setText(car_model);
@@ -465,6 +471,7 @@ public class FragmentRideInfo extends Fragment {
             if (server_check) {
 
                 if (server_response.equals("1")) {
+                    initCallInviteService(number,name);
 
                     Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.ride_shared_successfully),
                             Toast.LENGTH_SHORT).show();
@@ -501,4 +508,29 @@ public class FragmentRideInfo extends Fragment {
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle(getActivity().getResources().getString(R.string.share_ride));
     }
+    public void initCallInviteService(String phonenumber,String name) {
+        long appID = 2045343670;
+        String appSign = "3789fdd89be894a239a0667858fff7389be2d70bf0f4028094009d191c7ee87d";
+        String phone_number=phonenumber.replaceAll("92","");
+        String userID = phone_number;
+        String userName = name;
+        Application appCtx = ((Application) getActivity().getApplication());
+        ZegoUIKitPrebuiltCallInvitationService.init(appCtx, appID, appSign, userID, userName);
+     /*   ZegoUIKitPrebuiltCallInvitationService.setPrebuiltCallConfigProvider(new ZegoUIKitPrebuiltCallConfigProvider() {
+            @Override
+            public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
+                ZegoUIKitPrebuiltCallConfig callConfig = new ZegoUIKitPrebuiltCallConfig();
+                boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
+                callConfig.turnOnCameraWhenJoining = isVideoCall;
+                if (!isVideoCall) {
+                    callConfig.bottomMenuBarConfig.buttons = Arrays.asList(
+                            ZegoMenuBarButtonName.TOGGLE_MICROPHONE_BUTTON,
+                            ZegoMenuBarButtonName.SWITCH_AUDIO_OUTPUT_BUTTON,
+                            ZegoMenuBarButtonName.HANG_UP_BUTTON);
+                }
+                return callConfig;
+            }
+        });*/
+    }
+
 }
