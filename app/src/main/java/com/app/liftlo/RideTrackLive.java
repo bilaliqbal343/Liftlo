@@ -1,21 +1,27 @@
 package com.app.liftlo;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +45,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.victor.loading.rotate.RotateLoading;
 
 import org.json.JSONArray;
@@ -54,8 +61,7 @@ public class RideTrackLive extends Fragment implements OnMapReadyCallback {
 
     View v;
     String StartingLat, StartingLan, DestinationLat, DestinationLan, DestName, StartingName,
-            share_ride_id, ride_id, driver_name, date, time, seats, cost, driver_image
-            ,driver_id;
+            share_ride_id, ride_id, driver_name, date, time, seats, cost, driver_image, driver_id;
     GoogleMap mMap;
     Marker startMarker, destMarker;
     Handler handler = new Handler();
@@ -63,7 +69,7 @@ public class RideTrackLive extends Fragment implements OnMapReadyCallback {
     BitmapDrawable bitmapdraw, bitmapdraw1;
     Bitmap b, b1;
     double dblLat, dblLon;
-    String[] live_lat, live_lan,status;
+    String[] live_lat, live_lan, status;
     RotateLoading rotateLoading;
 
     Timer timer;
@@ -75,6 +81,7 @@ public class RideTrackLive extends Fragment implements OnMapReadyCallback {
     float s_rating;
     JSONArray jar_array;
     String server_response = "0", server_response_text;
+    FloatingActionButton btnEmergency;
 
 
     @Nullable
@@ -84,9 +91,15 @@ public class RideTrackLive extends Fragment implements OnMapReadyCallback {
         v = inflater.inflate(R.layout.fragment_ride_live, container, false);
 
 
-
         rotateLoading = v.findViewById(R.id.rotateloading);
+        btnEmergency = v.findViewById(R.id.btn_emergency);
+        btnEmergency.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                make_call("15");
 
+            }
+        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager()
                 .findFragmentById(R.id.map);
@@ -111,8 +124,6 @@ public class RideTrackLive extends Fragment implements OnMapReadyCallback {
         cost = sharedPreferences.getString("cost", "");
         driver_image = sharedPreferences.getString("driver_image", "");
         driver_id = sharedPreferences.getString("driver_id", "");
-
-
 
 
         //change image to bitmap and set as marker
@@ -242,7 +253,6 @@ public class RideTrackLive extends Fragment implements OnMapReadyCallback {
                 status = new String[(jar_array.length() - 1)];
 
 
-
                 c = jar_array.getJSONObject(0);
 
                 if (c.length() > 0) {
@@ -254,9 +264,6 @@ public class RideTrackLive extends Fragment implements OnMapReadyCallback {
 
                     }
                 }
-
-
-
 
 
                 int j = 1;
@@ -339,10 +346,6 @@ public class RideTrackLive extends Fragment implements OnMapReadyCallback {
             }
         }
     }
-
-
-
-
 
 
     public class UploadHistory extends AsyncTask<String, Void, String> {
@@ -440,10 +443,6 @@ public class RideTrackLive extends Fragment implements OnMapReadyCallback {
     }
 
 
-
-
-
-
     //ASYNCTASK UPDATE RATING///////////////////////////////////////////////////
     public class Update_Rating extends AsyncTask<String, Void, String> {
 
@@ -457,7 +456,7 @@ public class RideTrackLive extends Fragment implements OnMapReadyCallback {
         @Override
         protected String doInBackground(String... params) {
 
-            server_response="";
+            server_response = "";
             try {
 
                 JSONObject obj = new JSONObject();
@@ -493,7 +492,7 @@ public class RideTrackLive extends Fragment implements OnMapReadyCallback {
             } catch (Exception e) {
                 e.printStackTrace();
 
-                server_check=false;
+                server_check = false;
             }
 
 
@@ -547,8 +546,6 @@ public class RideTrackLive extends Fragment implements OnMapReadyCallback {
                             addToBackStack("tag").commit();
 
 
-
-
                 } else {
                     Toast.makeText(getActivity(), server_response_text, Toast.LENGTH_SHORT).show();
 
@@ -563,13 +560,7 @@ public class RideTrackLive extends Fragment implements OnMapReadyCallback {
     }
 
 
-
-
-
-
-
-
-    public void RatingDialog(){
+    public void RatingDialog() {
 
         //CUSTOM DIALOG///////////////////////////////
         final Dialog dialog = new Dialog(getActivity());
@@ -597,8 +588,7 @@ public class RideTrackLive extends Fragment implements OnMapReadyCallback {
 
                     Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.kindly_provide_ratings), Toast.LENGTH_SHORT).show();
 
-                }
-                else {
+                } else {
 
                     s_rating = ratingBar.getRating();
                     new UploadHistory().execute();
@@ -623,14 +613,28 @@ public class RideTrackLive extends Fragment implements OnMapReadyCallback {
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             buildAlertMessageNoGps();
         } else {
-
-
             //start time and get location
             startTimer();
-
-
         }
 
+    }
+    public void make_call(String number) {
+
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Check Permissions Now
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.CALL_PHONE},
+                    1);
+        } else {
+            // permission has been granted, continue as usual
+//            Toast.makeText(this, "accessed", Toast.LENGTH_SHORT).show();
+
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + number));
+
+            startActivity(callIntent);
+        }
 
     }
 
