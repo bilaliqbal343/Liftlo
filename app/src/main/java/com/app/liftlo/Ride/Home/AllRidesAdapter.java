@@ -414,7 +414,7 @@ public class AllRidesAdapter extends BaseAdapter implements Filterable {
         //in this we reverse the incoming locations to book return ride
         ArrayList<Filter_model> FilteredArrList = new ArrayList<>();
 
-        if (mOriginalValues == null) {
+        if (mOriginalValues == null||mOriginalValues.isEmpty()) {
             mOriginalValues = new ArrayList<Filter_model>(mDisplayedValues); // saves the original data in mOriginalValues
         }
 
@@ -424,10 +424,10 @@ public class AllRidesAdapter extends BaseAdapter implements Filterable {
                     results.values = mOriginalValues;*/
         int size=mOriginalValues.size();
         for (int i = 0; i < size; i++) {
-            String data3=mOriginalValues.get(i).getDriver_name();
-            String data2 = mOriginalValues.get(i).getDest_name();
-            String data1 = mOriginalValues.get(i).getStart_name();
-            if ((data1.toLowerCase().trim().contains(destinationLocation.toLowerCase().trim()))&&(data2.toLowerCase().contains(startLocation.toLowerCase().trim()))&&(data3.toLowerCase().trim().equals(driverName.toLowerCase().trim()))) {
+            String name =mOriginalValues.get(i).getDriver_name();
+            String dest_name = mOriginalValues.get(i).getDest_name();
+            String start_name = mOriginalValues.get(i).getStart_name();
+            if ((start_name.toLowerCase().trim().contains(destinationLocation.trim().toLowerCase()))&&(dest_name.toLowerCase().contains(startLocation.toLowerCase().trim()))&&(name.toLowerCase().trim().equals(driverName.toLowerCase().trim()))) {
                 FilteredArrList.add(new Filter_model(mOriginalValues.get(i).booked_seats
                         , mOriginalValues.get(i).status
                         , mOriginalValues.get(i).date
@@ -449,10 +449,10 @@ public class AllRidesAdapter extends BaseAdapter implements Filterable {
 
             }
         }
-        if (FilteredArrList.size()<=0)
+       /* if (FilteredArrList.size()<=0)
         {
             Toast.makeText(con, "Ask the driver to schedule the ride first", Toast.LENGTH_SHORT).show();
-        }
+        }*/
 
         // set the Filtered result to return
 

@@ -146,7 +146,6 @@ public class FragmentAllRides extends Fragment {
             returnDestinationLocation = bundle.getString("returnDestinationName", "");
             if (!returnDriverName.equals("") && !returnStartLocation.equals("") && !returnDestinationLocation.equals("")) {
                 new GetAllRides().execute();
-                adapter = new AllRidesAdapter(getActivity(), new ArrayList<Filter_model>());
                 relativeLayout = v.findViewById(R.id.r);
                 rotateLoading = v.findViewById(R.id.rotateloading);
                 EtSearch = v.findViewById(R.id.et_search);
@@ -154,6 +153,7 @@ public class FragmentAllRides extends Fragment {
                 filter = v.findViewById(R.id.btnfilter);
                 search = v.findViewById(R.id.btnsearch);
                 scheduleTrip = v.findViewById(R.id.btn_schedule_trip);
+                new GetAllRides().execute();
                 returnRideFeatures(returnDriverName, returnStartLocation, returnDestinationLocation);
             }
         } else {
@@ -248,15 +248,18 @@ public class FragmentAllRides extends Fragment {
         CoordinatorLayout floatButton = (CoordinatorLayout) v.findViewById(R.id.rootLayout_floatbtn);
         searchfilter.setVisibility(View.GONE);
         floatButton.setVisibility(View.GONE);
-
-        if (adapter.returnRideFilter(driverName, startLoaction, destination) != null && !adapter.returnRideFilter(driverName, startLoaction, destination).isEmpty()) {
-            AllRidesAdapter returnRideAdapter = new AllRidesAdapter(getActivity(), adapter.returnRideFilter(driverName, startLoaction, destination));
+        ArrayList<Filter_model> returnRideLisst=new ArrayList<Filter_model>();
+        returnRideLisst=adapter.returnRideFilter(driverName,startLoaction,destination);
+        if (returnRideLisst != null && !returnRideLisst.isEmpty()) {
+            AllRidesAdapter returnRideAdapter = new AllRidesAdapter(getActivity(),returnRideLisst);
             listView.setAdapter(returnRideAdapter);
         } else {
             AllRidesAdapter emptyadapter = new AllRidesAdapter(getActivity(),
                     adapter.emptyArray());
             listView.setAdapter(emptyadapter);
             listView.setVisibility(View.GONE);
+            Toast.makeText(getContext(), "Ask the driver to schedule the ride first", Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -834,6 +837,30 @@ public class FragmentAllRides extends Fragment {
         btnDone = dialog.findViewById(R.id.btn_done);
         source = dialog.findViewById(R.id.source_city);
         destination = dialog.findViewById(R.id.destination_city);
+
+        final CheckBox fare, rating;
+        fare = dialog.findViewById(R.id.fare);
+        rating = dialog.findViewById(R.id.rating);
+
+
+        fare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                rating.setChecked(false);
+
+            }
+        });
+
+
+        rating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                fare.setChecked(false);
+
+            }
+        });
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -953,42 +980,8 @@ public class FragmentAllRides extends Fragment {
         getActivity().setTitle(getActivity().getResources().getString(R.string.all_available_rides));
     }
 
-    private String generateUserID() {
-        StringBuilder builder = new StringBuilder();
-        Random random = new Random();
-        while (builder.length() < 5) {
-            int nextInt = random.nextInt(10);
-            if (builder.length() == 0 && nextInt == 0) {
-                continue;
-            }
-            builder.append(nextInt);
-        }
-        return builder.toString();
-    }
-/*
-    public void initCallInviteService(String number,String name) {
-        long appID = 2045343670;
-        String appSign = "3789fdd89be894a239a0667858fff7389be2d70bf0f4028094009d191c7ee87d";
-        String userID =number;
-        String userName = name;
-        Application appCtx = ((Application) getActivity().getApplication());
-        ZegoUIKitPrebuiltCallInvitationService.init(appCtx, appID, appSign, userID, userName);
-        ZegoUIKitPrebuiltCallInvitationService.setPrebuiltCallConfigProvider(new ZegoUIKitPrebuiltCallConfigProvider() {
-            @Override
-            public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
-                ZegoUIKitPrebuiltCallConfig callConfig = new ZegoUIKitPrebuiltCallConfig();
-                *//*boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
-                callConfig.turnOnCameraWhenJoining = isVideoCall;
-                if (!isVideoCall) {*//*
-                    callConfig.bottomMenuBarConfig.buttons = Arrays.asList(
-                            ZegoMenuBarButtonName.TOGGLE_MICROPHONE_BUTTON,
-                            ZegoMenuBarButtonName.SWITCH_AUDIO_OUTPUT_BUTTON,
-                            ZegoMenuBarButtonName.HANG_UP_BUTTON);
 
-                return callConfig;
-            }
-        });
-    }*/
+
 
 
 }
