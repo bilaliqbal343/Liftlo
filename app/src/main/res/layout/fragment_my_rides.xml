@@ -1,45 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="#fff">
-
-
-
-
-
 
 
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"/>
-
-
+        tools:listitem="@layout/items_customer_rides"
+        android:layout_margin="5dp" />
 
 
     <RelativeLayout
         android:id="@+id/r"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#86000000">
+        android:background="#86000000"
+        android:visibility="gone">
 
         <com.victor.loading.rotate.RotateLoading
             android:id="@+id/rotateloading"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            app:loading_width="5dp"
+            android:layout_centerInParent="true"
             app:loading_color="#000"
-            android:layout_centerInParent="true"/>
+            app:loading_width="5dp" />
 
     </RelativeLayout>
-
-
-
 
 
 </RelativeLayout>

@@ -63,14 +63,13 @@ public class ActivityRide extends AppCompatActivity
         setContentView(R.layout.activity_ride);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         sharedPreferences = getSharedPreferences("DataStore", Context.MODE_PRIVATE);
         token = sharedPreferences.getString("token", "");
         id = sharedPreferences.getString("id", "");
         String name = sharedPreferences.getString("name", "");
-        String uid = generateUserID();
-        initCallInviteService(uid, name);
+        String number=sharedPreferences.getString("number","");
+       // String uid = generateUserID();
+        initCallInviteService(number, name);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -317,15 +316,16 @@ public class ActivityRide extends AppCompatActivity
     public void initCallInviteService(String number, String name) {
         long appID = 2045343670;
         String appSign = "3789fdd89be894a239a0667858fff7389be2d70bf0f4028094009d191c7ee87d";
-        String userID = number;
+        String phone_number = number.replaceAll("92", "");
+        String userID = phone_number;
         String userName = name;
-        //Application appCtx = ((Application) getActivity().getApplication());
         ZegoUIKitPrebuiltCallInvitationService.init(getApplication(), appID, appSign, userID, userName);
         ZegoUIKitPrebuiltCallInvitationService.setPrebuiltCallConfigProvider(new ZegoUIKitPrebuiltCallConfigProvider() {
             @Override
             public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
                 ZegoUIKitPrebuiltCallConfig callConfig = new ZegoUIKitPrebuiltCallConfig();
-                boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
+               // boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
+                boolean isVideoCall = false;
                 callConfig.turnOnCameraWhenJoining = isVideoCall;
                 if (!isVideoCall) {
                     callConfig.bottomMenuBarConfig.buttons = Arrays.asList(

@@ -15,6 +15,9 @@ import com.bumptech.glide.Glide;
 import com.app.liftlo.utils.ServerURL;
 import com.app.liftlo.R;
 import com.zegocloud.uikit.prebuilt.call.invite.ZegoStartCallInvitationButton;
+import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
+
+import java.util.Collections;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -145,6 +148,8 @@ public class RideRequestsAdapter extends BaseAdapter {
         viewholder.call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String phone_number=ride_number[position].replaceAll("92","");
+                viewholder.call.setInvitees(Collections.singletonList(new ZegoUIKitUser(phone_number)));
 
             }
         });

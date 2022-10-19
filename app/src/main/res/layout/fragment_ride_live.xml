@@ -80,7 +80,7 @@
             android:layout_marginRight="20dp"
             fab:pressedTranslationZ="12dp"
             android:backgroundTint="@color/button"
-            android:src="@drawable/ic_baseline_add_24" />
+            android:src="@drawable/alert_icon" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </RelativeLayout>

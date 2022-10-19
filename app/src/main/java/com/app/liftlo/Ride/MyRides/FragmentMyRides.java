@@ -110,7 +110,7 @@ public class FragmentMyRides extends Fragment {
     public void listview_click(long id, int position) {
 
         if (id == 1) {//call
-            make_call(driver_number[position]);
+            //make_call(driver_number[position]);
         } else if (id == 2) {//map
 
             Fragment fragment = new SeeLocation();

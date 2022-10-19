@@ -731,30 +731,5 @@ public class SignupActivity extends AppCompatActivity {
 
 
     }
-    public void initCallInviteService(String phonenumber,String name) {
-        long appID = 2045343670;
-        String appSign = "3789fdd89be894a239a0667858fff7389be2d70bf0f4028094009d191c7ee87d";
-        String phone_number=phonenumber.replaceAll("92","");
-        String userID = phone_number;
-        String userName = name;
-
-        ZegoUIKitPrebuiltCallInvitationService.init(getApplication(), appID, appSign, userID, userName);
-        /*ZegoUIKitPrebuiltCallInvitationService.setPrebuiltCallConfigProvider(new ZegoUIKitPrebuiltCallConfigProvider() {
-            @Override
-            public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
-                ZegoUIKitPrebuiltCallConfig callConfig = new ZegoUIKitPrebuiltCallConfig();
-                boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
-                callConfig.turnOnCameraWhenJoining = isVideoCall;
-                if (!isVideoCall) {
-                    callConfig.bottomMenuBarConfig.buttons = Arrays.asList(
-                            ZegoMenuBarButtonName.TOGGLE_MICROPHONE_BUTTON,
-                            ZegoMenuBarButtonName.SWITCH_AUDIO_OUTPUT_BUTTON,
-                            ZegoMenuBarButtonName.HANG_UP_BUTTON);
-                }
-                return callConfig;
-            }
-        });*/
-    }
-
 }
 

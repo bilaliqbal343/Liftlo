@@ -305,6 +305,7 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:text="Call"
+            android:visibility="gone"
             android:background="@drawable/button_background"
             app:srcCompat="@drawable/marker"
            android:textColor="@android:color/white"/>

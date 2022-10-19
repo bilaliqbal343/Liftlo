@@ -79,11 +79,6 @@ public class FragmentRideInfo extends Fragment {
             DestName = bundle.getString("Destname");
             StartingName = bundle.getString("StartName");
 
-//            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-//                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-//            relativeLayout.setVisibility(View.VISIBLE);
-//            rotateLoading.start();
-
 
             Log.e("startLatLan", StartingLat + "," + StartingLan + "\n" + DestName + "," +
                     StartingName + "," +
@@ -471,7 +466,7 @@ public class FragmentRideInfo extends Fragment {
             if (server_check) {
 
                 if (server_response.equals("1")) {
-                    initCallInviteService(number,name);
+                   // initCallInviteService(number,name);
 
                     Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.ride_shared_successfully),
                             Toast.LENGTH_SHORT).show();
@@ -507,30 +502,6 @@ public class FragmentRideInfo extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle(getActivity().getResources().getString(R.string.share_ride));
-    }
-    public void initCallInviteService(String phonenumber,String name) {
-        long appID = 2045343670;
-        String appSign = "3789fdd89be894a239a0667858fff7389be2d70bf0f4028094009d191c7ee87d";
-        String phone_number=phonenumber.replaceAll("92","");
-        String userID = phone_number;
-        String userName = name;
-        Application appCtx = ((Application) getActivity().getApplication());
-        ZegoUIKitPrebuiltCallInvitationService.init(appCtx, appID, appSign, userID, userName);
-     /*   ZegoUIKitPrebuiltCallInvitationService.setPrebuiltCallConfigProvider(new ZegoUIKitPrebuiltCallConfigProvider() {
-            @Override
-            public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
-                ZegoUIKitPrebuiltCallConfig callConfig = new ZegoUIKitPrebuiltCallConfig();
-                boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
-                callConfig.turnOnCameraWhenJoining = isVideoCall;
-                if (!isVideoCall) {
-                    callConfig.bottomMenuBarConfig.buttons = Arrays.asList(
-                            ZegoMenuBarButtonName.TOGGLE_MICROPHONE_BUTTON,
-                            ZegoMenuBarButtonName.SWITCH_AUDIO_OUTPUT_BUTTON,
-                            ZegoMenuBarButtonName.HANG_UP_BUTTON);
-                }
-                return callConfig;
-            }
-        });*/
     }
 
 }

@@ -16,6 +16,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.app.liftlo.R;
 import com.app.liftlo.utils.ServerURL;
+import com.zegocloud.uikit.prebuilt.call.invite.ZegoStartCallInvitationButton;
+import com.zegocloud.uikit.service.defines.ZegoUIKitUser;
+
+import java.util.Collections;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -79,7 +83,8 @@ public class RidesAdapter extends BaseAdapter {
         TextView  TVdate, TVname, TVnumber, TVstatus, TVstartName, TVdestName, TVseats, TVcost
                 , TVmodel, TVac, TVmusic, TVsmoking;
         Button track, cancel;
-        ImageButton call, map;
+        ImageButton  map;
+        ZegoStartCallInvitationButton call;
         RatingBar ratingBar;
         CircleImageView imageView;
 
@@ -106,7 +111,7 @@ public class RidesAdapter extends BaseAdapter {
             viewholder.TVcost = (TextView) convertView.findViewById(R.id.cost);
             viewholder.track = (Button) convertView.findViewById(R.id.btn);
             viewholder.cancel = (Button) convertView.findViewById(R.id.cancel);
-            viewholder.call = (ImageButton) convertView.findViewById(R.id.call);
+            viewholder.call = (ZegoStartCallInvitationButton) convertView.findViewById(R.id.call);
             viewholder.map = (ImageButton) convertView.findViewById(R.id.map);
             viewholder.TVmodel = (TextView) convertView.findViewById(R.id.car);
             viewholder.TVac = (TextView) convertView.findViewById(R.id.ac);
@@ -139,8 +144,9 @@ public class RidesAdapter extends BaseAdapter {
             viewholder.TVstatus.setText(con.getResources().getString(R.string.accepted));
             viewholder.track.setVisibility(View.VISIBLE);
 
-            if(ride_started[position].equals("1"))
-            viewholder.cancel.setVisibility(View.GONE);
+            if(ride_started[position].equals("1")) {
+                viewholder.cancel.setVisibility(View.GONE);
+            }
         }
 
 
@@ -191,7 +197,8 @@ public class RidesAdapter extends BaseAdapter {
         viewholder.call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String phone_number=driver_number[position].replaceAll("92","");
+                viewholder.call.setInvitees(Collections.singletonList(new ZegoUIKitUser(phone_number)));
                 ((ListView) parent).performItemClick(v, position, 1);
             }
         });

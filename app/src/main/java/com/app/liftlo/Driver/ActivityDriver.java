@@ -31,6 +31,7 @@ import com.app.liftlo.Driver.Home.FragmnetDriverLocation;
 import com.app.liftlo.DriverTrackLive;
 import com.app.liftlo.Ride.Home.FragmentAllRides;
 import com.app.liftlo.R;
+import com.zegocloud.uikit.components.invite.ZegoInvitationType;
 import com.zegocloud.uikit.prebuilt.call.ZegoUIKitPrebuiltCallConfig;
 import com.zegocloud.uikit.prebuilt.call.config.ZegoMenuBarButtonName;
 import com.zegocloud.uikit.prebuilt.call.invite.ZegoCallInvitationData;
@@ -251,14 +252,14 @@ public class ActivityDriver extends AppCompatActivity
             @Override
             public ZegoUIKitPrebuiltCallConfig requireConfig(ZegoCallInvitationData invitationData) {
                 ZegoUIKitPrebuiltCallConfig callConfig = new ZegoUIKitPrebuiltCallConfig();
-                /*boolean isVideoCall = invitationData.type == ZegoInvitationType.VIDEO_CALL.getValue();
+                boolean isVideoCall = false;
                 callConfig.turnOnCameraWhenJoining = isVideoCall;
-                if (!isVideoCall) {*/
-                callConfig.bottomMenuBarConfig.buttons = Arrays.asList(
-                        ZegoMenuBarButtonName.TOGGLE_MICROPHONE_BUTTON,
-                        ZegoMenuBarButtonName.SWITCH_AUDIO_OUTPUT_BUTTON,
-                        ZegoMenuBarButtonName.HANG_UP_BUTTON);
-
+                if (!isVideoCall) {
+                    callConfig.bottomMenuBarConfig.buttons = Arrays.asList(
+                            ZegoMenuBarButtonName.TOGGLE_MICROPHONE_BUTTON,
+                            ZegoMenuBarButtonName.SWITCH_AUDIO_OUTPUT_BUTTON,
+                            ZegoMenuBarButtonName.HANG_UP_BUTTON);
+                }
                 return callConfig;
             }
         });

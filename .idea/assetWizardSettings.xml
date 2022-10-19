@@ -323,7 +323,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/E:/Android%20studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/add/baseline_add_24.xml" />
+                                      <entry key="url" value="jar:file:/E:/Android%20studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/crisis_alert/baseline_crisis_alert_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -333,7 +333,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_baseline_add_24" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="alert_icon" />
                             <entry key="sourceFile" value="E:\Liftlo" />
                           </map>
                         </option>
