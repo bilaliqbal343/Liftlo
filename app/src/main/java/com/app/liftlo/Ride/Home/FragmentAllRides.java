@@ -79,6 +79,7 @@ public class FragmentAllRides extends Fragment {
     View v;
     Dialog dialog;
     ListView listView;
+    Bundle bundle = null;
     RelativeLayout relativeLayout;
     RotateLoading rotateLoading;
     SharedPreferences sharedPreferences;
@@ -125,29 +126,9 @@ public class FragmentAllRides extends Fragment {
         currentDateandTime = sdf.format(new Date());
         Log.e("date", currentDateandTime);
         sharedPreferences = getActivity().getSharedPreferences("DataStore", Context.MODE_PRIVATE);
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            returnDriverName = bundle.getString("returnDriverName", "");
-            returnStartLocation = bundle.getString("returnStartName", "");
-            returnDestinationLocation = bundle.getString("returnDestinationName", "");
-            if (!returnDriverName.equals("") && !returnStartLocation.equals("") && !returnDestinationLocation.equals("")) {
-                relativeLayout = v.findViewById(R.id.r);
-                rotateLoading = v.findViewById(R.id.rotateloading);
-                EtSearch = v.findViewById(R.id.et_search);
-                swipeRefreshLayout = v.findViewById(R.id.swiperefresh);
-                filter = v.findViewById(R.id.btnfilter);
-                search = v.findViewById(R.id.btnsearch);
-                scheduleTrip = v.findViewById(R.id.btn_schedule_trip);
-                getActivity().setTitle("Return Ride");
-                arrayList.clear();
 
-                returnRideFeatures(returnDriverName, returnStartLocation, returnDestinationLocation);
+        init();
 
-
-            }
-        } else {
-            init();
-        }
 
         return v;
     }
@@ -157,7 +138,7 @@ public class FragmentAllRides extends Fragment {
 
 
         requireActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
+        bundle = this.getArguments();
 
         ride_id = sharedPreferences.getString("id", "No value");
         ride_name = sharedPreferences.getString("name", "No value");
@@ -248,24 +229,17 @@ public class FragmentAllRides extends Fragment {
         String startLocationCity = splitStartLocation[1];
         String[] splitdestLocation = destination.split(",");
         String destLocationCity = splitdestLocation[1];
-
-        listView = v.findViewById(R.id.listview);
-        new GetAllRides().execute();
         adapter = new AllRidesAdapter(getActivity(), arrayList);
         RelativeLayout searchfilter = (RelativeLayout) v.findViewById(R.id.search_filter);
         CoordinatorLayout floatButton = (CoordinatorLayout) v.findViewById(R.id.rootLayout_floatbtn);
         searchfilter.setVisibility(View.GONE);
         floatButton.setVisibility(View.GONE);
-        //ArrayList<Filter_model> returnRideLisst=new ArrayList<Filter_model>();
-        //returnRideLisst=adapter.returnRideFilter(driverName,startLoaction,destination);
-        if (arrayList != null && !arrayList.isEmpty()) {
-            new Handler().postDelayed(new Runnable(){
-                @Override
-                public void run() {
-                    arrayList=adapter.returnRideFilter(driverName, startLocationCity, destLocationCity);
 
-                }
-            }, 100);
+        if (arrayList != null && !arrayList.isEmpty()) {
+
+            arrayList = adapter.returnRideFilter(driverName, startLocationCity, destLocationCity);
+
+
             AllRidesAdapter returnRideAdapter = new AllRidesAdapter(getActivity(), arrayList);
             listView.setAdapter(returnRideAdapter);
         } else {
@@ -711,44 +685,51 @@ public class FragmentAllRides extends Fragment {
 
 
             if (server_check) {
-
-
                 if (server_response.equals("1")) {
 
 
                     if (driver_name.length > 0) {
 
-
-                        adapter = new AllRidesAdapter(getActivity(),
-                                arrayList);
-
-                        listView.setAdapter(adapter);
-
-
-                        //filtering data
-                        EtSearch.addTextChangedListener(new TextWatcher() {
-                            @Override
-                            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+                        if (bundle != null) {
+                            returnDriverName = bundle.getString("returnDriverName", "");
+                            returnStartLocation = bundle.getString("returnStartName", "");
+                            returnDestinationLocation = bundle.getString("returnDestinationName", "");
+                            if (!returnDriverName.equals("") && !returnStartLocation.equals("") && !returnDestinationLocation.equals("")) {
+                                getActivity().setTitle("Return Ride");
+                                returnRideFeatures(returnDriverName, returnStartLocation, returnDestinationLocation);
                             }
+                        } else {
 
-                            @Override
-                            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                            adapter = new AllRidesAdapter(getActivity(),
+                                    arrayList);
 
-                                if (search_value.equals("source")) {
-                                    adapter.getFilter().filter(charSequence);
-                                } else if (search_value.equals("destination")) {
-                                    adapter.getFilter2().filter(charSequence);
-                                } else {
-                                    Toast.makeText(getActivity(), "please select source or destination", Toast.LENGTH_SHORT).show();
+                            listView.setAdapter(adapter);
+
+
+                            //filtering data
+                            EtSearch.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
                                 }
-                            }
 
-                            @Override
-                            public void afterTextChanged(Editable editable) {
-                            }
-                        });
+                                @Override
+                                public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
 
+                                    if (search_value.equals("source")) {
+                                        adapter.getFilter().filter(charSequence);
+                                    } else if (search_value.equals("destination")) {
+                                        adapter.getFilter2().filter(charSequence);
+                                    } else {
+                                        Toast.makeText(getActivity(), "please select source or destination", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
 
+                                @Override
+                                public void afterTextChanged(Editable editable) {
+                                }
+                            });
+
+                        }
                     } else {
                         Toast.makeText(getActivity(), server_response_text, Toast.LENGTH_SHORT).show();
 
@@ -880,15 +861,12 @@ public class FragmentAllRides extends Fragment {
         btnDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Boolean isfare=false;
-                Boolean isRating=false;
-                if (fare.isChecked())
-                {
-                    isfare=true;
-                }
-                else if (rating.isChecked())
-                {
-                    isRating=true;
+                Boolean isfare = false;
+                Boolean isRating = false;
+                if (fare.isChecked()) {
+                    isfare = true;
+                } else if (rating.isChecked()) {
+                    isRating = true;
                 }
                 if (!source.getText().toString().equals("") && !destination.getText().toString().equals("")) {
                     sourceCity = source.getText().toString();
@@ -896,7 +874,7 @@ public class FragmentAllRides extends Fragment {
                     AllRidesAdapter emptyadapter = new AllRidesAdapter(getActivity(),
                             adapter.emptyArray());
                     listView.setAdapter(emptyadapter);
-                    AllRidesAdapter scheduleRideAdapter = new AllRidesAdapter(getActivity(), adapter.secheduleRideFilter(sourceCity, destinationCity,isRating,isfare));
+                    AllRidesAdapter scheduleRideAdapter = new AllRidesAdapter(getActivity(), adapter.secheduleRideFilter(sourceCity, destinationCity, isRating, isfare));
                     listView.setAdapter(scheduleRideAdapter);
                     dialog.dismiss();
                 } else {

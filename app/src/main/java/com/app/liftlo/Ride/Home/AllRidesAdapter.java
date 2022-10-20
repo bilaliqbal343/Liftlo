@@ -474,6 +474,7 @@ public class AllRidesAdapter extends BaseAdapter implements Filterable {
 
             }
         }
+        notifyDataSetChanged();
        /* if (FilteredArrList.size()<=0)
         {
             Toast.makeText(con, "Ask the driver to schedule the ride first", Toast.LENGTH_SHORT).show();

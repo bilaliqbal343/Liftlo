@@ -32,8 +32,8 @@
 
 
     <style name="RatingBar" parent="Theme.AppCompat">
-        <item name="colorControlNormal">#000000</item>
-        <item name="colorControlActivated">@color/button</item>
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <item name="colorControlActivated">#f0a607</item>
     </style>
 
 
